@@ -1,18 +1,15 @@
 <template>
-    <div>
-        <!-- HTML here -->
+    <div style="position: absolute">
+        fdf
     </div>
 </template>
 
 <style scoped>
-    /* CSS styles are here */
 
 </style>
-
 
 <script>
 export default {
     
 }
 </script>
-

@@ -43,6 +43,14 @@ const Unit1_exersice = resolve => {
   })
 }
 
+const Unit1_vocabulary = resolve => {
+  require.ensure(['@/components/unit1/Vocabulary.vue'], () => {
+    resolve(require('@/components/unit1/Vocabulary.vue'))
+  })
+}
+
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -79,11 +87,16 @@ export default new Router({
             },
             {
               path: 'exercise',
-              name: 'Unit1 Grammar Exersice',
+              name: 'Unit1_grammar_exersice',
               component: Unit1_exersice
             }
           ]
-        }
+        },
+        {
+          path: 'vocabulary',
+          name: 'Unit1_vocabulary',
+          component: Unit1_vocabulary
+        },
       ]
     },
     {

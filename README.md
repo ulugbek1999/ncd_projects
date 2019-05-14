@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+
 # units
 
 > Educational applications for NCD International
@@ -20,7 +21,10 @@ npm run build --report
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
 =======
+
 # ncd_projects
+
 Projects for NCD International
 >>>>>>> d3950d56a66e20e80c344cdad39d729c074b5e07

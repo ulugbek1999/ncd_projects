@@ -87,7 +87,7 @@ export default new Router({
             },
             {
               path: 'exercise',
-              name: 'Unit1_grammar_exersice',
+              name: 'Unit1_grammar_exercise',
               component: Unit1_exersice
             }
           ]

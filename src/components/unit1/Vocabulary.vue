@@ -121,11 +121,11 @@ export default {
         currentIndex: 0,
         images: [
           {
-            url: 'http://127.0.0.1:8080/static/img/IceCream.7e7717c.jpg',
+            url: 'https://thefoodcharlatan.com/wp-content/uploads/2018/11/Nanas-Famous-Homemade-Peppermint-Ice-Cream-6-e1543277868775.jpg',
             alt: 'Ice cream'
           },
           {
-            url: 'http://127.0.0.1:8080/static/img/melon.899221e.jpg',
+            url: 'https://image.makewebeasy.net/makeweb/0/K5HN2G4Kq/airfreshner/%E0%B9%80%E0%B8%A1%E0%B8%A5%E0%B9%88%E0%B8%AD%E0%B8%991_1.jpg',
             alt: 'Melon'
           },
           {

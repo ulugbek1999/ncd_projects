@@ -84,6 +84,8 @@
     }
 
     .slides .left_hidden {
+      position: absolute;
+      left: -250px;
       height: 130px;
       width: 250px;
       margin-top: 25px;
@@ -103,7 +105,8 @@
 
     .slides .image_container {
       margin: 0 auto;
-      width: 60%;
+      text-align: center;
+      width: 70%;
       overflow: hidden;
     }
 
@@ -125,11 +128,11 @@ export default {
             alt: 'Ice cream'
           },
           {
-            url: 'https://image.makewebeasy.net/makeweb/0/K5HN2G4Kq/airfreshner/%E0%B9%80%E0%B8%A1%E0%B8%A5%E0%B9%88%E0%B8%AD%E0%B8%991_1.jpg',
+            url: 'https://previews.123rf.com/images/matheesaengkaew/matheesaengkaew1310/matheesaengkaew131000021/23079094-cantaloupe-melon-vector-illustration.jpg',
             alt: 'Melon'
           },
           {
-            url: 'http://127.0.0.1:8080/static/img/watermelon.6bb7038.jpg',
+            url: 'https://images-na.ssl-images-amazon.com/images/I/812c9h8-zuL._SY355_.jpg',
             alt: 'Watermelon'
           },
           {

@@ -102,7 +102,7 @@ export default new Router({
     {
       path: '*',
       redirect: {
-        name: 'ErrorPage'
+        name: 'Unit1'
       }
     }
   ],

@@ -7,20 +7,20 @@
         <nav>
             <div class="nav-links">
                 <router-link :to="{name: 'Unit1_grammar_video'}" tag="div" class="nav-link" style="padding-left: 60px; margin-left: -9px" active-class="active_navs" exact>
-                    <a>Grammar</a>
+                    <p>Grammar</p>
                 </router-link>
                 
                 <router-link class="nav-link" style="padding-left: 51px; margin-left: -30px" tag="div" :to="{name: 'Unit1_vocabulary'}" active-class="active_navs">
-                    <a>Vocabulary</a>
+                    <p>Vocabulary</p>
                 </router-link>
                 <div class="nav-link" style="padding-left: 63px; margin-left: -30px">
-                    <a>Reading</a>
+                    <p>Reading</p>
                 </div>
                 <div class="nav-link" style="padding-left: 61px; margin-left: -30px">
-                    <a>Listening</a>
+                    <p>Listening</p>
                 </div>
                 <div class="nav-link" style="padding-left: 52px; margin-left: -30px">
-                    <a>Homework</a>
+                    <p>Homework</p>
                 </div>
             </div>
             <div class="layers">
@@ -171,7 +171,7 @@ nav {
 
 }
 
-.nav-link a {
+.nav-link p {
     color: #fff;
 }
 

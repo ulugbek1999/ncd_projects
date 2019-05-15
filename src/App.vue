@@ -87,4 +87,5 @@ input[type=range]:focus::-ms-fill-upper {
   background: rgba(59, 84, 243, 0.78);
 }
 
+
 </style>

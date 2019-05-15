@@ -1,6 +1,7 @@
 <template>
-    <div>
+    <div style="position: absolute">
         <!-- HTML here -->
+        <!--URL 127.0.0.1:8080/unit1/grammar/exercise -->
     </div>
 </template>
 

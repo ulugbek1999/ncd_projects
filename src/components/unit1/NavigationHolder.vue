@@ -43,7 +43,7 @@
             
             <div class="navigator back_navigator">Back</div>
             <div class="page_counter">1/5</div>
-            <div class="navigator next_navigator">Next</div>
+            <router-link tag="div" class="navigator next_navigator" :to="{name: 'Unit1_grammar_exercise'}">Next</router-link>
         </div>
         
     </footer>

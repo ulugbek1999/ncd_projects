@@ -6,11 +6,11 @@
         </div>
         <nav>
             <div class="nav-links">
-                <router-link :to="{name: 'Unit1_grammar_video'}" tag="div" class="nav-link" style="padding-left: 60px; margin-left: -9px" active-class="active_navs" exact>
+                <router-link :to="{name: 'Unit1_grammar_video'}" tag="div" class="nav-link" style="padding-left: 60px; margin-left: -9px" active-class="active_navs">
                     <p>Grammar</p>
                 </router-link>
                 
-                <router-link class="nav-link" style="padding-left: 51px; margin-left: -30px" tag="div" :to="{name: 'Unit1_vocabulary'}" active-class="active_navs">
+                <router-link class="nav-link" style="padding-left: 51px; margin-left: -30px" tag="div" :to="{name: 'Unit1_vocabulary'}" active-class="active_navs" exact>
                     <p>Vocabulary</p>
                 </router-link>
                 <div class="nav-link" style="padding-left: 63px; margin-left: -30px">
@@ -62,6 +62,11 @@ data () {
 </script>
 
 <style scoped>
+body {
+  background-color: #aeb4b4;
+  overflow-x: hidden;
+}
+
 a {
     color: #000;
     text-decoration: none;

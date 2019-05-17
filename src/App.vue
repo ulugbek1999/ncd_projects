@@ -12,8 +12,8 @@ export default {
 
 <style>
 
-body {
-  background-color: #aeb4b4;
+img {
+  user-select: none;
 }
 
 input[type=range] {

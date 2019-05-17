@@ -3,34 +3,111 @@
       <div class="slides track">
         <div class="slide left_hidden">
           <div class="image_container">
-            <img :src="Slideshow.images[3].url" :alt="Slideshow.images[3].alt">
-          </div>
-        </div>
-        <div class="slide left" id="slide_left">
-          <div class="image_container">
             <img :src="Slideshow.images[0].url" :alt="Slideshow.images[0].alt">
           </div>
         </div>
-        <div class="slide center " id="slide_center" @click="slideshowHandler">
+        <div class="slide left">
+          <div class="image_container">
+            <img :src="Slideshow.images[1].url" :alt="Slideshow.images[1].alt">
+          </div>
+        </div>
+        <div class="slide center">
           <div class="image_container">
             <a href="#" class="prev"></a>
-            <img :src="Slideshow.images[1].url" :alt="Slideshow.images[1].alt">
-          </div>  
-        </div>
-        <div class="slide right" id="slide_right">
-          <div class="image_container">
             <img :src="Slideshow.images[2].url" :alt="Slideshow.images[2].alt">
           </div>
         </div>
+        <div class="slide right">
+          <div class="image_container">
+            <img :src="Slideshow.images[3].url" :alt="Slideshow.images[3].alt">
+          </div>
+        </div>
+        <div class="slide right_hidden">
+          <div class="image_container">
+            <img :src="Slideshow.images[4].url" :alt="Slideshow.images[4].alt">
+          </div>
+        </div>
+      </div>
+      <div class="slideshow_controllers">
+        <div class="slide_switcher prev">
+          <img @click="nextSlide" src="./children/images/back1.png" alt="back" data-arrow="prev">
+        </div>
+        <div class="slide_switcher next">
+          <img @click="prevSlide" src="./children/images/next.png" alt="next" data-arrow="next">
+        </div>
+      </div>
+      <div class="slide_info">
+        <div>
+          {{ centeredText }}
+        </div>
+      </div>
+      <div class="slider_woman">
+          
       </div>
     </div>
 </template>
 
 <style scoped>
+
+    .slide_info {
+      position: absolute;
+      top: 380px;
+      width: 1000px;
+      text-align: center;
+      font-size: 1.5em;
+    }
+
+    .slide_info div {
+      padding: 0 20px;
+      border: 2px solid black;
+      display: inline-block;
+      margin: 0 auto;
+      border-radius: 15px;
+    }
+
+    .slider_woman {
+      position: absolute;
+      background-image: url('./children/images/slider_student.png');
+      background-repeat: no-repeat;
+      background-size: auto 200px;
+      top: 380px;
+      width: 190px;
+      height: 200px;
+      transform: scaleX(-1)
+    }
+    
+    .slideshow_controllers {
+      display: flex;
+      position: absolute;
+      top: 200px;
+      left: 350px;
+      z-index: 20000;
+      width: 320px;
+      justify-content: space-between;
+    }
+
+    .slide_switcher img {
+      width: 30px;
+      height: auto;
+      opacity: 0.6;
+      user-select: none;
+    }
+
+    .slide_switcher img:hover {
+      opacity: 0.9;
+      cursor: pointer;
+    }
+
+    .slide_switcher {
+      width: 40px;
+      height: 40px;
+      background-color: transparent;
+    }
+
     .slides {
         position: absolute;
         top: 100px;
-        left: 100px;
+        left: 90px;
     }
 
     .slide {
@@ -44,13 +121,13 @@
     }
 
     .slides .center {
-      height: 180px;
+      height: 250px;
       width: 350px;
       position: relative;
       z-index: 1000;
       left: 240px;
-      transition-property: width, height, left, right;
-      transition-duration: .5s;
+      transition-property: height, width, margin-top, left, right;
+      transition-duration: .7s;
       transition-timing-function: ease;
     }
 
@@ -62,7 +139,7 @@
 
     .slides .right {
       position: absolute;
-      left: 585px;
+      left: 588px;
       z-index: 10;
     }
 
@@ -75,43 +152,61 @@
     }
 
     .slides .right, .slides .left {
-      height: 130px;
+      height: 180px;
+      width: 250px;
+      margin-top: 33px;
+      transition-property: height, width, margin-top, left, right;
+      transition-duration: .7s;
+      transition-timing-function: ease;
+    }
+
+    .slides .left_hidden, .slides .right_hidden {
+      height: 180px;
       width: 250px;
       margin-top: 25px;
-      transition-property: width, height, left, right;
-      transition-duration: .5s;
-      transition-timing-function: ease;
+      opacity: 0;
+      transition: all .7s ease;
+    }
+
+    .slides .right_hidden {
+      left: 850px;
+      position: absolute;
+    }
+
+    .slides .right_hidden img {
+      height: 180px;
+      width: auto;
+      transition: width .7s ease-in;
     }
 
     .slides .left_hidden {
       position: absolute;
       left: -250px;
-      height: 130px;
-      width: 250px;
-      margin-top: 25px;
     }
 
     .slides .left_hidden img {
-      height: 130px;
-    }
-
-    .slides > .center img {
       height: 180px;
     }
 
+    .slides > .center img {
+      height: 250px;
+      transition: height .7s ease;
+    }
+
     .right img,  .left img {
-      height: 130px;
+      height: 180px;
+      transition: height .7s ease;
     }
 
     .slides .image_container {
       margin: 0 auto;
       text-align: center;
-      width: 70%;
+      width: 90%;
       overflow: hidden;
     }
 
     .track {
-      width: 1000px;
+      width: 839px;
       overflow: hidden;
     }
 </style>
@@ -138,26 +233,83 @@ export default {
           {
             url: 'https://i5.walmartimages.ca/images/Large/428/5_r/6000195494285_R.jpg',
             alt: 'Apple'
+          },
+          {
+            url: 'http://soappotions.com/wp-content/uploads/2017/10/orange.jpg',
+            alt: 'Orange'
           }
         ]
-      }
+      },
+      centeredText : ""
     }
   },
   methods: {
-    slideshowHandler () {
-      const centerSlide = document.querySelector('.center')
-      const leftSlide = document.querySelector('.left')
-      const rightSlide = document.querySelector('.right')
-      centerSlide.classList.remove('center')
-      centerSlide.classList.add('left')
-      leftSlide.classList.remove('left')
-      leftSlide.classList.add('right')
-      rightSlide.classList.remove('right')
-      rightSlide.classList.add('center')
-    },
+    prevSlide (event) {
+      //Placeholders for slides
+        const centerSlide = document.querySelector('.center')
+        const leftSlide = document.querySelector('.left')
+        const rightSlide = document.querySelector('.right')
+        const leftHiddenSlide = document.querySelector('.left_hidden')
+        const rightHiddenSlide = document.querySelector('.right_hidden')
 
+        leftSlide.classList.remove('left')
+        leftSlide.classList.add('left_hidden')
+        centerSlide.classList.remove('center')
+        centerSlide.classList.add('left')
+        leftHiddenSlide.classList.remove('left_hidden')
+        leftHiddenSlide.classList.add('right_hidden')
+        rightHiddenSlide.classList.remove('right_hidden')
+        rightHiddenSlide.classList.add('right')
+        rightSlide.classList.remove('right')
+        rightSlide.classList.add('center')
+
+        this.centeredText = document.querySelector('.center').getElementsByTagName('div')[0].getElementsByTagName('img')[0].alt
+
+        //temporarily disable click event
+        event.target.style.pointerEvents = "none"
+        setTimeout(function() {
+          event.target.style.pointerEvents = "auto";
+          event.target.onmouseover = () => {
+            event.target.style.cursor = "pointer"
+          }
+        }, 1000)
+    },
+    nextSlide (event) {
+        const centerSlide = document.querySelector('.center')
+        const leftSlide = document.querySelector('.left')
+        const rightSlide = document.querySelector('.right')
+        const leftHiddenSlide = document.querySelector('.left_hidden')
+        const rightHiddenSlide = document.querySelector('.right_hidden')
+        
+        rightHiddenSlide.classList.remove('right_hidden')
+        rightHiddenSlide.classList.add('left_hidden')
+        rightSlide.classList.remove('right')
+        rightSlide.classList.add('right_hidden')
+        centerSlide.classList.remove('center')
+        centerSlide.classList.add('right')
+        leftSlide.classList.remove('left')
+        leftSlide.classList.add('center')
+        leftHiddenSlide.classList.remove('left_hidden')
+        leftHiddenSlide.classList.add('left')
+
+        this.centeredText = document.querySelector('.center').getElementsByTagName('div')[0].getElementsByTagName('img')[0].alt
+
+        event.target.style.pointerEvents = "none";
+        setTimeout(() => {
+          event.target.style.pointerEvents = "auto";
+          event.target.onmouseover = () => {
+            event.target.style.cursor = "pointer"
+          }
+        }, 1000)
+    }
   },
   computed: {
+    altGetter () {
+
+    }
+  },
+  mounted () {
+    this.centeredText = document.querySelector('.center').getElementsByTagName('div')[0].getElementsByTagName('img')[0].alt
   }
 }
 </script>

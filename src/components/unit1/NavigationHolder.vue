@@ -6,22 +6,22 @@
         </div>
         <nav>
             <div class="nav-links">
-                <router-link :to="{name: 'Unit1_grammar_video'}" tag="div" class="nav-link" style="padding-left: 60px; margin-left: -9px" active-class="active_navs">
+                <router-link :to="{name: 'Unit1_grammar'}" tag="div" class="nav-link" style="padding-left: 60px; margin-left: -9px" active-class="active_navs">
                     <p>Grammar</p>
                 </router-link>
                 
-                <router-link class="nav-link" style="padding-left: 51px; margin-left: -30px" tag="div" :to="{name: 'Unit1_vocabulary'}" active-class="active_navs" exact>
+                <router-link class="nav-link" style="padding-left: 51px; margin-left: -30px" tag="div" :to="{name: 'Unit1_vocabulary'}" active-class="active_navs">
                     <p>Vocabulary</p>
                 </router-link>
-                <div class="nav-link" style="padding-left: 63px; margin-left: -30px">
+                <router-link tag="div" class="nav-link" style="padding-left: 63px; margin-left: -30px" :to="{name: 'Unit1_reading'}" active-class="active_navs">
                     <p>Reading</p>
-                </div>
-                <div class="nav-link" style="padding-left: 61px; margin-left: -30px">
+                </router-link>
+                <router-link tag="div" class="nav-link" style="padding-left: 61px; margin-left: -30px" :to="{name: 'Unit1_listening_recording'}" active-class="active_navs">
                     <p>Listening</p>
-                </div>
-                <div class="nav-link" style="padding-left: 52px; margin-left: -30px">
+                </router-link>
+                <router-link tag="div" class="nav-link" style="padding-left: 52px; margin-left: -30px" to="">
                     <p>Homework</p>
-                </div>
+                </router-link>
             </div>
             <div class="layers">
                 <div class="layer1"></div>
@@ -52,12 +52,18 @@
 
 <script>
 export default {
-data () {
-    return {
-    
+    data () {
+        return {
+        
+        }
+    },
+    methods: {
+        grammarRedirect () {
+            this.$router.push({
+                name: "Uni1_grammar_video"
+            })
+        }
     }
-},
-
 }
 </script>
 

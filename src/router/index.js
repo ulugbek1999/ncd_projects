@@ -49,6 +49,29 @@ const Unit1_vocabulary = resolve => {
   })
 }
 
+const Unit1_reading = resolve => {
+  require.ensure(['@/components/unit1/Reading.vue'], () => {
+    resolve(require('@/components/unit1/Reading.vue'))
+  })
+}
+
+const Unit1_reading_exercise = resolve => {
+  require.ensure(['@/components/unit1/ReadingComponents/ReadingExercise.vue'], () => {
+    resolve(require('@/components/unit1/ReadingComponents/ReadingExercise.vue'))
+  })
+}
+
+const Unit1_reading_hooker = resolve => {
+  require.ensure(['@/components/unit1/ReadingComponents/ReadingHooker.vue'], () => {
+    resolve(require('@/components/unit1/ReadingComponents/ReadingHooker.vue'))
+  })
+}
+
+const Unit1_listening_recording = resolve => {
+  require.ensure(['@/components/unit1/ListeningRecording.vue'], () => {
+    resolve(require('@/components/unit1/ListeningRecording.vue'))
+  })
+}
 
 
 Vue.use(Router)
@@ -79,6 +102,7 @@ export default new Router({
           path: 'grammar',
           name: 'Unit1_grammar',
           component: Unit1_grammar,
+          redirect: {name: "Unit1_grammar_video"},
           children: [
             {
               path: 'video',
@@ -97,6 +121,29 @@ export default new Router({
           name: 'Unit1_vocabulary',
           component: Unit1_vocabulary
         },
+        {
+          path: 'reading',
+          name: 'Unit1_reading',
+          component: Unit1_reading,
+          redirect: '/unit1/reading/main',
+          children: [
+            {
+              path: 'exercise',
+              name: 'Unit1_reading_exercise',
+              component: Unit1_reading_exercise
+            },
+            {
+              path: 'main',
+              name: "Unit1_reading_hooker",
+              component: Unit1_reading_hooker
+            }
+          ]
+        },
+        {
+          path: 'listening-recording',
+          name: 'Unit1_listening_recording',
+          component: Unit1_listening_recording
+        }
       ]
     },
     {

@@ -12,6 +12,10 @@ export default {
 
 <style>
 
+body {
+  overflow-x: hidden;
+}
+
 img {
   user-select: none;
 }

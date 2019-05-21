@@ -328,9 +328,9 @@ export default {
 
   .volume_slider {
     width: 55px;
-    position: absolute;
+    position: relative;
     margin-left: 33px;
-    top: -2px;
+    top: -9px;
     background-color: rgba(211, 211, 211, 0);
   }
 

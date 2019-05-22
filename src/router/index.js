@@ -67,12 +67,23 @@ const Unit1_reading_hooker = resolve => {
   })
 }
 
-const Unit1_listening_recording = resolve => {
-  require.ensure(['@/components/unit1/ListeningRecording.vue'], () => {
-    resolve(require('@/components/unit1/ListeningRecording.vue'))
+const Unit1_listening = resolve => {
+  require.ensure(['@/components/unit1/Listening'], () => {
+    resolve(require('@/components/unit1/Listening'))
   })
 }
 
+const Unit1_listening_recording = resolve => {
+  require.ensure(['@/components/unit1/ListeningComponents/ListeningRecording.vue'], () => {
+    resolve(require('@/components/unit1/ListeningComponents/ListeningRecording.vue'))
+  })
+}
+
+const Unit1_listening_exercise = resolve => {
+  require.ensure(['@/components/unit1/ListeningComponents/ListeningExercise'], () => {
+    resolve(require('@/components/unit1/ListeningComponents/ListeningExercise'))
+  })
+}
 
 Vue.use(Router)
 
@@ -140,9 +151,22 @@ export default new Router({
           ]
         },
         {
-          path: 'listening-recording',
-          name: 'Unit1_listening_recording',
-          component: Unit1_listening_recording
+          path: 'listening',
+          name: 'Unit1_listening',
+          component: Unit1_listening,
+          redirect: {name: 'Unit1_listening_recording'},
+          children: [
+            {
+              path: 'recording',
+              name: 'Unit1_listening_recording',
+              component: Unit1_listening_recording
+            },
+            {
+              path: 'exercise',
+              name: 'Unit1_listening_exercise',
+              component: Unit1_listening_exercise
+            }
+          ]
         }
       ]
     },

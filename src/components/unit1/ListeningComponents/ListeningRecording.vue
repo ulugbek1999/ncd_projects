@@ -4,10 +4,11 @@
             <h3>Introducing a friend</h3>
             <div class="image_container"></div>
             <audio controls class="listening_audio">
-                <source src="./children/audios/A1_introducing_a_friend.mp3" type="audio/mpeg">
+                <source src="../children/audios/A1_introducing_a_friend.mp3" type="audio/mpeg">
                 Your browser does not support audio tag
             </audio>
         </div>
+        <router-link :to="{name: 'Unit1_listening_exercise'}" style="position: absolute; top: 500px; left: 100px;"><a>Exercise>>></a></router-link>
     </div>
 </template>
 
@@ -44,7 +45,7 @@ export default {
         width: 70%;
         height: 80%;
         margin: 0 auto;
-        background-image: url('./children/images/friends.jpg');
+        background-image: url('../children/images/friends.jpg');
         background-repeat: no-repeat;
         background-size: cover;
     }

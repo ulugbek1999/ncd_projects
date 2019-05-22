@@ -3,7 +3,7 @@
         <h4>Reading A1: A poster for exam candidates - 2</h4>
             <h5>Choose the sentence that has the same meaning</h5>
             <div class="remaining_items">
-                5 items remaining
+                {{ remaining }} items remaining
             </div>
             <div class="task_container">
                 <p style="height: 50px; margin: 0">{{ tests[currentQuestion].question }}</p>
@@ -20,7 +20,7 @@
             </div>
             <div class="task_switchers">
                 <button class="btn btn-secondary" :class="{'disable-button': currentQuestion == 0}" @click="prevQuestion">Prev</button>
-                <button class="btn btn-success">Finish</button>
+                <button class="btn btn-success" @click="resultShower">Finish</button>
                 <button class="btn btn-secondary" :class="{'disable-button' : currentQuestion == 4}" @click="nextQuestion">Next</button>
             </div>
     </div>
@@ -103,13 +103,7 @@ export default {
                 }
             ],
             currentQuestion: 0,
-            answersChecker: {
-                first: "",
-                second: "",
-                third: "",
-                fourth: "",
-                fifth: ""
-            }
+            correctAnswers: 0,
         }
     },
     watch: {
@@ -127,8 +121,28 @@ export default {
         radioButtonUnchecker () {
             const radioButtons = document.querySelectorAll('.radio-button')
             Array.from(radioButtons).forEach(element => {
-                element.checked = false
+                    element.checked = false
             })
+        },
+        resultShower () {
+            for (const test of this.tests) {
+                if (test.answered == "correct") {
+                    this.correctAnswers++
+                }
+            }
+            alert("Correct answers: " + this.correctAnswers)
+            this.correctAnswers = 0;
+        }
+    },
+    computed: {
+        remaining () {
+            var remaining = 5
+            for (const test of this.tests) {
+                if (test.answered == "correct" || test.answered == "incorrect") {
+                    remaining--
+                }
+            }
+            return remaining
         }
     }
 }
@@ -206,6 +220,7 @@ export default {
         top: 30px;
         left: 630px;
     }
+    
     .task_container {
         position: relative;
         top: 70px;

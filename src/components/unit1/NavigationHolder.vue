@@ -16,7 +16,7 @@
                 <router-link tag="div" class="nav-link" style="padding-left: 63px; margin-left: -30px" :to="{name: 'Unit1_reading'}" active-class="active_navs">
                     <p>Reading</p>
                 </router-link>
-                <router-link tag="div" class="nav-link" style="padding-left: 61px; margin-left: -30px" :to="{name: 'Unit1_listening_recording'}" active-class="active_navs">
+                <router-link tag="div" class="nav-link" style="padding-left: 61px; margin-left: -30px" :to="{name: 'Unit1_listening'}" active-class="active_navs">
                     <p>Listening</p>
                 </router-link>
                 <router-link tag="div" class="nav-link" style="padding-left: 52px; margin-left: -30px" to="">

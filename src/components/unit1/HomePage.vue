@@ -420,7 +420,7 @@ export default {
       position: absolute;
       top: 490px;
       z-index: 100;
-      width: 300px;
+      width: 50%;
       left: 30%;
     }
 

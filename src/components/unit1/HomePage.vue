@@ -81,8 +81,15 @@ export default {
           element.style.fontSize = "15px"
           element.style.top = "-5px"          
         }
-        else {
+        else if ( 600 < $(window).width() && $(window).width() <= 1000 ) {
           element.style.fontSize = "1.5vw";
+          element.style.top = "-0.5vw"
+        }
+        else if ( $(window).width() > 390 && $(window).width() <= 600) {
+          element.style.fontSize = "2vw"
+        }
+        else {
+          element.style.fontSize = "3vw"
           element.style.top = "-0.5vw"
         }
       })
@@ -95,9 +102,18 @@ export default {
           element.style.fontSize = "18px"
           element.style.top = "20px"
           }
-          else {
-            element.style.fontSize = "1.8vw";
+          else if ( 600 < $(window).width() && $(window).width() <= 1000) {
+            element.style.fontSize = "1.9vw";
+            element.style.top = "2vw";
+          }
+          else if ( $(window).width() > 390 && $(window).width() <= 600  ) {
+            element.style.fontSize = "3vw";
             element.style.top = "2vw"
+          }
+          else {
+            element.style.fontSize = "3.5vw"
+            element.style.top = "4.8vw"
+            
           }
         })
       }
@@ -340,6 +356,10 @@ export default {
   }
 
   @media screen and (max-width: 1000px) {
+      body {
+        font-size: 100%
+      }
+
       .unit1 {
         display: none;
       }
@@ -347,7 +367,7 @@ export default {
       .homepage_mobile {
         display: block;
         box-shadow: 0 0 10px lightblue;
-        max-width: 99vw;
+        max-width: 99%;
         height: 650px;
         margin: 50px auto;
         background-color: #3e75c7;
@@ -365,11 +385,11 @@ export default {
 
       .solving_test_trans {
         height: 399px;
-        max-width: 99vw;
+        max-width: 99%;
       }
 
       .solving_test_trans h1 {
-        font-size: 8vw;
+        font-size: 10vw;
         font-weight: bold;
       }
 
@@ -381,15 +401,15 @@ export default {
       .topic {
         position: absolute;
         z-index: 1000;
-        top: 355px;
-        left: 80%;
-        height: 18vw;
-        width: 18vw;
+        top: 360px;
+        left: 77%;
+        height: 20vw;
+        width: 20vw;
         padding-top: 4.2vw;
       }
 
       .topic h1 {
-        font-size: 4vw;
+        font-size: 5vw;
       }
 
       .topic p {
@@ -417,7 +437,7 @@ export default {
       z-index: 3;
       top: 20px;
       color: white;
-      font-size: 1.8vw;
+      font-size: 1.9vw;
       transition: all .3s ease;
     }
     
@@ -479,4 +499,158 @@ export default {
       left: 85vw;
     }
   }
+
+  @media screen and (max-width: 850px) {
+    .solving_test_trans h1 {
+      font-size: 10vw;
+    }
+
+    .solving_test_trans p {
+      font-size: 2.5vw;
+    }
+
+    .topic {
+      top: 370px;
+    }
+
+    .topic h1 {
+      font-size: 5vw;
+    }
+
+    .topic p {
+      font-size: 1.7vw;
+    }
+
+  }
+
+  @media screen and (max-width: 600px) {
+    .solving_test_trans h1 {
+      font-size: 15vw;
+    }
+
+    .solving_test_trans p {
+      font-size: 3vw;
+      width: 80%;
+    }
+
+    .topic {
+      width: 25vw;
+      height: 25vw;
+      left: 70%;
+      padding-top: 25px;
+    }
+
+    .topic h1 {
+      font-size: 7vw;
+    }
+
+    .topic p {
+      font-size: 2.2vw
+    }
+
+    .type_your_name {
+      font-size: 3vw;
+    }
+
+    .languages {
+      font-size: 3vw;
+    }
+
+    .uzbek, .russian {
+      height: 10vw;
+      width: 10vw;
+      background-size: 10vw auto;
+      margin-right: 25px;
+    }
+
+    .start_button {
+      width: 14vw;
+      height: 14vw;
+      font-size: 3.6vw;
+      padding-top: 23px;
+      top: 595px;
+      left: 82%;
+    }
+
+    .footer_unit1 {
+      font-size: 2.1vw;
+    }
+  }
+
+  @media screen and (max-width: 490px) {
+    .input-fields {
+      width: 30%;
+    }
+
+    .solving_test_trans {
+      padding-top: 120px;
+    }
+
+    .solving_test_trans h1 {
+      font-size: 18vw;
+    }
+
+    .solving_test_trans p {
+      font-size: 4.5vw;
+    }
+
+    .topic {
+      width: 28vw;
+      height: 28vw;
+      top: 390px;
+      padding-top: 25px;
+      left: 68%;
+    }
+
+    .topic h1 {
+      font-size: 8.4vw;
+    }
+
+    .topic p {
+      font-size: 2.5vw;
+    }
+
+    .start_button {
+      width: 20vw;
+      height: 20vw;
+      font-size: 5.5vw;
+      padding-top: 5.9vw;
+      left: 75%;
+      top: 580px;
+    }
+
+    .footer_unit1 {
+      height: 35px;
+    }
+  }
+
+  @media screen and (max-width: 390px) {
+    .topic {
+      width: 32vw;
+      height: 32vw;
+      left: 65%
+    }
+
+    .start_button {
+      top: 610px;
+    }
+
+    .footer_unit1 {
+      font-size: 3vw;
+    }
+
+    .type_your_name {
+      font-size: 3.5vw;
+    }
+
+    .languages {
+      font-size: 3.5vw;
+    }
+
+    .uzbek, .russian {
+      width: 13vw;
+      height: 13vw;
+      background-size: 13vw auto;
+    }
+  } 
 </style>

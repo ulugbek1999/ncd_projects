@@ -85,6 +85,14 @@ const Unit1_listening_exercise = resolve => {
   })
 }
 
+const Unit1_homework = resolve => {
+  require.ensure(['@/components/unit1/Homework'], () => {
+    resolve(require('@/components/unit1/Homework'))
+  })
+}
+
+import FlipClock from '@/components/FlipClock'
+
 Vue.use(Router)
 
 export default new Router({
@@ -93,6 +101,11 @@ export default new Router({
       path: '/error',
       name: 'ErrorPage',
       component: ErrorPage
+    },
+    {
+      path: '/flipclock',
+      name: 'Flipclock',
+      component: FlipClock
     },
     {
       path: '/unit1/homepage',
@@ -167,6 +180,11 @@ export default new Router({
               component: Unit1_listening_exercise
             }
           ]
+        },
+        {
+          path: 'homework',
+          name: 'Unit1_homework',
+          component: Unit1_homework
         }
       ]
     },

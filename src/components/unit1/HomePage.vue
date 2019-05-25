@@ -34,6 +34,33 @@
       </div>
 
     </div>
+    <div class="homepage_mobile">
+      <div class="main-image">
+        <div class="solving_test_trans">
+            <h1>Unit 1</h1>
+            <p>"Education is the passport to the future, for tomorrow belongs to those who prepare for it today."</p>
+        </div>
+      </div>
+      <div class="topic">
+          <h1>Hello</h1>
+          <p>am/are/is my/your</p>
+      </div>
+      <div class="input-fields">
+        <span class="type_your_name" @click="focusOnInput">Type your name</span>
+        <input type="text" @focus="nameFocuser" @focusout="nameFocuserOut" class="name_input" v-model="student_name">
+      </div>
+      <div class="languages">
+        Select your preffered language:
+        <div class="flags">
+          <div class="uzbek" @click="selectLanguage" data-language = "uzbek"></div>
+          <div class="russian" data-language = "russian" @click="selectLanguage"></div>
+        </div>        
+      </div>
+      <div class="start_button" @click="test_starter">
+        START
+      </div>
+      <div class="footer_unit1"> &copy; Powered by NCD International</div>
+    </div>
       <router-view></router-view>  
   </div>
 </template>
@@ -48,20 +75,39 @@ export default {
   },
   methods: {
     nameFocuser () {
-      const element = document.querySelector('.type_your_name')
-      element.style.fontSize = "15px"
-      element.style.top = "-5px"
+      const elements = document.querySelectorAll('.type_your_name')
+      Array.from(elements).forEach(element => {
+        if ($(window).width() > 1000) {
+          element.style.fontSize = "15px"
+          element.style.top = "-5px"          
+        }
+        else {
+          element.style.fontSize = "1.5vw";
+          element.style.top = "-0.5vw"
+        }
+      })
     },
     nameFocuserOut (event) {
-      const element = document.querySelector('.type_your_name')
+      const elements = document.querySelectorAll('.type_your_name')
       if (event.target.value == "" || event.target.value == null) {
-        element.style.fontSize = "18px"
-        element.style.top = "20px"
+        Array.from(elements).forEach(element => {
+          if($(window).width() > 1000) {
+          element.style.fontSize = "18px"
+          element.style.top = "20px"
+          }
+          else {
+            element.style.fontSize = "1.8vw";
+            element.style.top = "2vw"
+          }
+        })
       }
     },
     focusOnInput () {
-      const element = document.querySelector('.name_input')
-      element.focus()
+      const nameInput = document.querySelectorAll('.name_input')
+      // element.focus()
+      Array.from(nameInput).forEach(element => {
+        element.focus()
+      })
     },
     selectLanguage(event) {
       if (event.target.dataset.language == "uzbek") {
@@ -182,7 +228,7 @@ export default {
     color: white;
     padding-top: 40px;
     top: 300px;
-    left: 790px;
+    left: 800px
   }
 
   .input-fields  {
@@ -287,5 +333,150 @@ export default {
   .footer_unit1 {
     padding-top: 8px;
     font-size: 14px
+  }
+
+  .homepage_mobile {
+    display: none
+  }
+
+  @media screen and (max-width: 1000px) {
+      .unit1 {
+        display: none;
+      }
+
+      .homepage_mobile {
+        display: block;
+        box-shadow: 0 0 10px lightblue;
+        max-width: 99vw;
+        height: 650px;
+        margin: 50px auto;
+        background-color: #3e75c7;
+      }
+
+      .main-image {
+        width: 100%;
+        height: 399px;
+        overflow: hidden;
+        background-image: url('./children/images/TestSolving.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .solving_test_trans {
+        height: 399px;
+        max-width: 99vw;
+      }
+
+      .solving_test_trans h1 {
+        font-size: 8vw;
+        font-weight: bold;
+      }
+
+      .solving_test_trans p {
+        font-size: 2.2vw;
+        width: 65%;
+      }
+
+      .topic {
+        position: absolute;
+        z-index: 1000;
+        top: 355px;
+        left: 80%;
+        height: 18vw;
+        width: 18vw;
+        padding-top: 4.2vw;
+      }
+
+      .topic h1 {
+        font-size: 4vw;
+      }
+
+      .topic p {
+        font-size: 1.5vw
+      }
+
+      .input-fields  {
+      position: absolute;
+      top: 490px;
+      z-index: 100;
+      width: 300px;
+      left: 30%;
+    }
+
+    .input-fields input {
+      width: 40vw;
+      background-color: #3e75c7;
+      border: none;
+      color: #fff;
+      border-bottom: 1px solid #fff;
+    }
+
+    .type_your_name {
+      position: relative;
+      z-index: 3;
+      top: 20px;
+      color: white;
+      font-size: 1.8vw;
+      transition: all .3s ease;
+    }
+    
+
+
+    .languages {
+      position: absolute;
+      z-index: 100;
+      top: 588px;
+      left: 30%;
+      font-size: 1.8vw;
+      color: #fff;
+    }
+
+    .flags {
+      display: flex;
+      margin-top: 15px;
+    }
+
+    .uzbek {
+      position: relative;
+      z-index: 20;
+      background-image: url('./children/images/uzbflag.png');
+      background-size: 7vw auto;
+      background-repeat: no-repeat;
+      width: 10vw;
+      height: 5vw;
+
+    }
+    .russian {
+      position: relative;
+      z-index: 20;
+      background-image: url('./children/images/rusflag.png');
+      background-size: 7vw auto;
+      background-repeat: no-repeat;
+      width: 10vw;
+      height: 5vw;
+    }
+    .footer_unit1 {
+      position: absolute;
+      top: 700px;
+      font-size: 1.4vw;
+      width: 99vw;
+    }
+
+    .start_button {
+      position: absolute;
+      z-index: 1000;
+      background-color: rgb(8, 47, 105);
+      width: 11vw;
+      text-align: center;
+      height: 11vw;
+      padding-top: 3.5vw;
+      font-size: 2.6vw;
+      color: aliceblue;
+      border-radius: 50%;
+      opacity: 0.8;
+      top: 570px;
+      left: 85vw;
+    }
   }
 </style>

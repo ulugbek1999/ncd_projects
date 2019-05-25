@@ -10,11 +10,20 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@mvpleung/flipclock": "0.0.6",
+    "ajv": "^6.10.0",
+    "bootstrap": "^4.3.1",
+    "flipclock": "^0.10.8",
     "jquery": "^3.4.1",
+    "popper.js": "^1.15.0",
     "sweetalert": "^2.1.2",
     "vue": "^2.5.2",
+    "vue-property-decorator": "^8.1.1",
+    "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
     "vue-slick": "^1.1.15",
+    "vue2-flip-countdown": "^0.5.3",
+    "vuejs-countdown-timer": "^2.1.1",
     "vuex": "^3.1.0"
   },
   "devDependencies": {

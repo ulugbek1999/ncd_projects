@@ -19,7 +19,7 @@
                 <router-link tag="div" class="nav-link" style="padding-left: 61px; margin-left: -30px" :to="{name: 'Unit1_listening'}" active-class="active_navs">
                     <p>Listening</p>
                 </router-link>
-                <router-link tag="div" class="nav-link" style="padding-left: 52px; margin-left: -30px" to="">
+                <router-link tag="div" class="nav-link" style="padding-left: 52px; margin-left: -30px" :to="{name: 'Unit1_homework'}" active-class="active_navs">
                     <p>Homework</p>
                 </router-link>
             </div>
@@ -223,6 +223,26 @@ footer {
     height: 10px;
     width: 730px;
     background-color: #1f25af;
+}
+
+.copyright {
+    position: absolute;
+    z-index: 2;
+    top: 450px;
+    background-color: #3e75c7;
+    height: 300px;
+    width: 1000px;
+}
+
+.footer_unit1 {
+    position: absolute;
+    bottom: 0;
+    height: 40px;
+    width: 100%;
+    background-color: #305895;
+    text-align: center;
+    color: #fff;
+    padding-top: 5px;
 }
 </style>
 

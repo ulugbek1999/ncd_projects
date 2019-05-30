@@ -45,9 +45,11 @@
             </div>
             <div class="ultra-nav">
                 <div class="icon-nav" @click="menuAnimator">
-                    <div class="bar1"></div>
-                    <div class="bar2"></div>
-                    <div class="bar3"></div>
+                    <span style="position: relative; top: -10px;">
+                        <div class="bar1"></div>
+                        <div class="bar2"></div>
+                        <div class="bar3"></div>
+                    </span>  
                 </div>
                  <!-- The overlay -->
                 <div id="myNav" class="overlay">
@@ -57,10 +59,11 @@
 
                     <!-- Overlay content -->
                     <div class="overlay-content">
-                        <a href="#">About</a>
-                        <a href="#">Services</a>
-                        <a href="#">Clients</a>
-                        <a href="#">Contact</a>
+                        <router-link :to="{name: 'Unit1_grammar'}">Grammar</router-link>
+                        <router-link :to="{name: 'Unit1_vocabulary'}">Vocabulary</router-link>
+                        <router-link :to="{name: 'Unit1_reading'}">Reading</router-link>
+                        <router-link :to="{name: 'Unit1_listening'}">Listening</router-link>
+                        <router-link :to="{name: 'Unit1_homework'}">Homework</router-link>
                     </div>
 
                 </div> 
@@ -107,14 +110,21 @@ export default {
             })
         },
         menuAnimator (event) {
-            event.target.classList.add('change')
             document.getElementById("myNav").style.width = "100%";
         },
         openNav() {
         },
         closeNav() {
-            document.querySelector('.icon-nav').classList.remove('change')
             document.getElementById("myNav").style.width = "0%";
+        }
+    },
+    mounted () {
+        this.$nextTick(() => {
+        })
+    },
+    watch: {
+        '$route' (to, from) {
+            $('.overlay').css({'width' : 0})
         }
     }
 }
@@ -123,8 +133,11 @@ export default {
 <style scoped>
 body {
   background-color: #aeb4b4;
-  overflow-x: hidden;
+  overflow: hidden;
 }
+
+
+
 
 a {
     color: #000;
@@ -179,6 +192,7 @@ max-width: 1000px;
 height: 650px;
 box-shadow: 0 0 10px lightblue;
 background-color: #f6f6e9;
+overflow: hidden;
 }
 
 .opacity1 {
@@ -278,6 +292,8 @@ footer {
 .icon-nav {
     display: inline-block;
     cursor: pointer;
+    top: 10px;
+    position: relative;
 }
 
 .icon-nav div {
@@ -373,7 +389,7 @@ footer {
   height: 100%;
   width: 0;
   position: fixed; /* Stay in place */
-  z-index: 1000; /* Sit on top */
+  z-index: 10000000; /* Sit on top */
   right: 0;
   top: 0;
   background-color: rgb(0,0,0); /* Black fallback color */
@@ -429,8 +445,9 @@ footer {
     .placeholder {
         width: 99%;
         margin: 50px auto;
-        overflow: hidden;
+        overflow-x: hidden;
     }
+
     
     .navigators {
         left: unset;

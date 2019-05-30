@@ -93,6 +93,11 @@
       user-select: none;
     }
 
+    .prev {
+      position: relative;
+      top: 1.61px;
+    }
+
     .slide_switcher img:hover {
       opacity: 0.9;
       cursor: pointer;
@@ -124,7 +129,7 @@
       height: 250px;
       width: 350px;
       position: relative;
-      z-index: 1000;
+      z-index: 100;
       left: 240px;
       transition-property: height, width, margin-top, left, right;
       transition-duration: .7s;
@@ -209,6 +214,125 @@
       width: 839px;
       overflow: hidden;
     }
+
+    @media screen and (max-width: 1000px) {
+      .slides {
+        left: unset ;
+        right: unset;
+        position: relative;
+        margin: 0 auto;
+      }
+
+      .slide_info {
+        width: 100%;
+      }
+
+      .slideshow_controllers {
+        top: 200px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+      }
+
+      .slide_info {
+        position: absolute;
+      }
+    }
+
+    /* @media screen and (max-width: 930px) {
+
+    } */
+
+    @media screen and (max-width: 860px) {
+      .slides .right, .slides .left {
+        display: none;
+      }
+
+
+      .track {
+        width: 100%;
+      }
+
+      .slides .center {
+        margin: 0 auto;
+      }
+
+      .slideshow_controllers {
+        margin: unset;
+        left: 260px;
+      }
+    }
+
+    @media screen and (max-width: 780px) {
+      .slides {
+        margin: unset;
+      }
+
+
+    }
+
+    @media screen and (max-width: 730px) {
+      .slides .center {
+        left: 150px;
+      }
+
+      .slideshow_controllers {
+        left: 170px
+      }
+
+      .slide_info div {
+        left: -340px
+      }
+    }
+
+    @media screen and (max-width: 540px) {
+      .slides .center {
+        left: 80px;
+      }
+
+      .slideshow_controllers {
+        left: 100px;
+      }
+
+      .slide_info div {
+        left: -470px;
+      }
+    }
+
+    @media screen and (max-width: 470px) {
+      .slides .center {
+        left: unset;
+        margin: 0 auto;
+      }
+
+      .track {
+        text-align: center;
+      }
+
+      .slideshow_controllers {
+        left: unset;
+        right: unset;
+        width: 100%;
+      }
+
+
+
+      .slider_woman {
+        display: none;
+      }
+
+      .slide_info div {
+        margin: 0 auto;
+      }
+
+      .slides .center {
+        width: 75%;
+      }
+
+    }
+
+
 </style>
 
 <script>

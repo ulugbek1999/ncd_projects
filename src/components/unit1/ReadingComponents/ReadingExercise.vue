@@ -30,4 +30,13 @@ export default {
         background-color: #fff;
         padding: 10px 20px;
     }
+
+    @media screen and (max-width: 1000px) {
+        .tests_container {
+            top: unset;
+            left: unset;
+            margin: 50px 5vw;
+            width: 89vw;
+        }
+    }
 </style>

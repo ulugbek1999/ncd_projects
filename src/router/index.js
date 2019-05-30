@@ -4,7 +4,7 @@ import ErrorPage from '@/components/ErrorPage'
 // import HomePage from '@/components/unit1/HomePage'
 // import Unit1Tests from '@/components/unit1/children/TestsContainer'
 // import NavigationHolder from '@/components/unit1/NavigationHolder'
-// import Unit1_grammar_video from '@/components/unit1/children/Grammar_video'
+import Unit1_vocabulary from '@/components/unit1/Vocabulary.vue'
 
 // Lazily load routes
 const HomePage = resolve => {
@@ -43,11 +43,6 @@ const Unit1_exersice = resolve => {
   })
 }
 
-const Unit1_vocabulary = resolve => {
-  require.ensure(['@/components/unit1/Vocabulary.vue'], () => {
-    resolve(require('@/components/unit1/Vocabulary.vue'))
-  })
-}
 
 const Unit1_reading = resolve => {
   require.ensure(['@/components/unit1/Reading.vue'], () => {

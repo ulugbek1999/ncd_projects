@@ -466,4 +466,31 @@ export default {
       margin-right: 20px;
     }
   }
+
+  @media screen and (max-width: 350px) {
+    .progress__player {
+      flex-basis: 69%;
+    }
+
+    .volume_and_speed_holder {
+      position: absolute;
+      margin-left: unset;
+      left: 94px
+    }
+
+    .speed_controller {
+      position: absolute;
+      margin-right: 0;
+      float: unset;
+      top: 4px;
+      left: 100px;
+    }
+
+    .navigators {
+      right: unset;
+      left: 100px;
+    }
+  }
+
+
 </style>

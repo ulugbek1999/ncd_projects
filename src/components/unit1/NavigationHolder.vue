@@ -69,12 +69,10 @@
                 </div> 
             </div>
         </nav>
-            <div class="layers">
-                <div class="layer1"></div>
-                <div class="layer2"></div>
-            </div>
-            
-        
+        <div class="layers">
+            <div class="layer1"></div>
+            <div class="layer2"></div>
+        </div>
     </header>
     <main>
         <router-view></router-view>
@@ -100,7 +98,6 @@
 export default {
     data () {
         return {
-        
         }
     },
     methods: {
@@ -120,6 +117,7 @@ export default {
     },
     mounted () {
         this.$nextTick(() => {
+
         })
     },
     watch: {

@@ -1,5 +1,5 @@
 <template>
-    <div style="position: absolute">
+    <div style="position: absolute;" class="main_container" >
         <div class="listening_exercise">
             <h3>Introducing a friend</h3>
             <div class="image_container"></div>
@@ -7,8 +7,8 @@
                 <source src="../children/audios/A1_introducing_a_friend.mp3" type="audio/mpeg">
                 Your browser does not support audio tag
             </audio>
+            <router-link :to="{name: 'Unit1_listening_exercise'}" style="position: relative; top: 10px; left: -20px;" class="exercise"><a>Exercise>>></a></router-link>
         </div>
-        <router-link :to="{name: 'Unit1_listening_exercise'}" style="position: absolute; top: 500px; left: 100px;"><a>Exercise>>></a></router-link>
     </div>
 </template>
 
@@ -23,6 +23,12 @@ export default {
 
     .listening_audio {
         width: 100%;
+        position: relative;
+        top: -5px;
+    }
+
+    .listening_audio:focus {
+        outline: none;
     }
 
     .listening_exercise {
@@ -48,6 +54,31 @@ export default {
         background-image: url('../children/images/friends.jpg');
         background-repeat: no-repeat;
         background-size: cover;
+        background-position-x: center
+    }
+
+    @media screen and (max-width: 1000px) {
+        .main_container {
+            right: 0;
+            left: 0
+        }
+
+         .listening_exercise {
+             margin: 0 auto;
+             left: 0;
+             right: 0;
+         }
+
+    }
+
+    @media screen and (max-width: 850px) {
+        .listening_exercise {
+            width: 95%;
+        }
+
+        .image_container {
+            width: unset;
+        }
     }
 </style>
 

@@ -1,9 +1,11 @@
 <template>
-    <div style="position: absolute">
+    <div style="position: absolute; left: 0; right: 0">
         <div class="homework">
-            <h1>Homework will be availble in:</h1>
-            <br>
-            <flip-clock></flip-clock>
+            <div style="margin: 0 auto">
+                <h1>Homework will be availble in:</h1>
+                <br>
+                <flip-clock></flip-clock>
+            </div>    
         </div>
     </div>
 </template>
@@ -29,7 +31,13 @@ export default {
     .homework {
         position: relative;
         top: 170px;
-        width: 1000px;
+        width: 100%;
         text-align: center;
+    }
+
+    @media screen and (max-width: 600px) {
+        h1 {
+            font-size: 6.9vw
+        }
     }
 </style>

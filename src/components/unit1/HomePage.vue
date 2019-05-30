@@ -87,10 +87,11 @@ export default {
         }
         else if ( $(window).width() > 390 && $(window).width() <= 600) {
           element.style.fontSize = "2vw"
+          element.style.top = "-0.3vw"
         }
         else {
           element.style.fontSize = "3vw"
-          element.style.top = "-0.5vw"
+          element.style.top = "-0.3vw"
         }
       })
     },
@@ -108,11 +109,11 @@ export default {
           }
           else if ( $(window).width() > 390 && $(window).width() <= 600  ) {
             element.style.fontSize = "3vw";
-            element.style.top = "2vw"
+            element.style.top = "4vw"
           }
           else {
             element.style.fontSize = "3.5vw"
-            element.style.top = "4.8vw"
+            element.style.top = "7vw"
             
           }
         })
@@ -148,17 +149,25 @@ export default {
   watch: {
     selectedLanguage: function (value) {
       if (value == "uzbek") {
-        document.querySelector('.uzbek').classList.add("uzb_activated")
+        Array.from(document.querySelectorAll('.uzbek')).forEach(element => {
+          element.classList.add("uzb_activated")
+        })
         try {
-          document.querySelector('.russian').classList.remove("rus_activated")
+          Array.from(document.querySelectorAll('.russian')).forEach(element => {
+            element.classList.remove("rus_activated")
+          })
         } catch (error) {
           
         }
       }
       else {
-        document.querySelector('.russian').classList.add("rus_activated")
+        Array.from(document.querySelectorAll('.russian')).forEach(element => {
+          element.classList.add("rus_activated")
+        })
                 try {
-          document.querySelector('.uzbek').classList.remove("uzb_activated")
+          Array.from(document.querySelectorAll('.uzbek')).forEach(element => {
+            element.classList.remove("uzb_activated")
+          })
         } catch (error) {
           
         }
@@ -310,11 +319,11 @@ export default {
   }
 
   .russian:hover, .rus_activated {
-    background-image: url('./children/images/rusflag_hover.png');
+    background-image: url('./children/images/rusflag_hover.png') !important;
   }
 
     .uzbek:hover, .uzb_activated {
-    background-image: url('./children/images/uzbflag_hover.png');
+    background-image: url('./children/images/uzbflag_hover.png') !important;
   }
 
   .russian:hover, .uzbek:hover {
@@ -652,5 +661,54 @@ export default {
       height: 13vw;
       background-size: 13vw auto;
     }
-  } 
+  }
+
+  @media screen and (max-width: 300px) {
+    .homepage_mobile {
+      width: 300px !important;
+    }
+
+    .body {
+      overflow-x: scroll;
+    }
+
+    .topic {
+      width: 103px;
+      height: 103px;
+      right: unset;
+      left: 180px;
+    }
+
+    .topic h1 {
+      font-size: 25px;
+    }
+
+    .topic p {
+      font-size: 9px;
+    }
+
+    .start_button {
+      width: 60px;
+      height: 60px;
+      font-size: 18px;
+      right: unset;
+      left: 210px;
+    }
+
+    .uzbek, .russian {
+      width: 40px;
+      height: 40px;
+      background-size: 40px auto !important;
+    }
+
+    .solving_test_trans h1 {
+      font-size: 3em;
+    }
+
+    .solving_test_trans p {
+      font-size: 12px;
+    }
+  }
+
+
 </style>

@@ -2,7 +2,7 @@
   <div>
     <div>
       <div class="player">
-        <video src="./videos/grammar_video_example.mp4" class="player__video"  height="400" width="590" @timeupdate="timeUpdater() ; progressBarHandler()"></video>
+        <video src="./videos/grammar_video_example.mp4" class="player__video"  height="400" width="690" @timeupdate="timeUpdater() ; progressBarHandler()"></video>
         <div class="background-image_lesson" v-if="video_status=='stopped'"></div>
         <div class="player__controls">
           <div class="pause__button toggle player_control" title="Toggle Play" @click="triggerPlayAndPause" v-if="video_status == 'playing'"></div>
@@ -166,11 +166,19 @@ export default {
       const percent = (video.currentTime / video.duration) * 100
       const progressFilled = document.querySelector('.progress_filled')
       progressFilled.style.width = percent + '%'
+      if (progressFilled.style.width == "100%") {
+        this.video_status = "stopped";
+        progressFilled.style.width = "0%"
+      }
     },
     scrubVideo(e) {
       const video = document.querySelector('.player__video')
       const scrubTime = (e.offsetX / e.target.offsetWidth) * video.duration
       video.currentTime = scrubTime
+    },
+    videoHeightGetterSetter () {
+        var videoHeight = $('.player__video').height()
+        $('.player').css({"height": videoHeight - 10 + "px"})
     }
   },
   watch: {
@@ -180,7 +188,13 @@ export default {
 
   },
   mounted() {
+    this.$nextTick(() => {
+      $(window).resize(() => {
+        this.videoHeightGetterSetter()
+      })
+    })
 
+    this.videoHeightGetterSetter()
   }
 }
 </script>
@@ -188,11 +202,10 @@ export default {
 <style scoped>
 
   .video_time {
-    position: absolute;
+    position: relative;
     width: 150px;
     z-index: 1000;
-    top: 345px;
-    margin-left: 520px;
+    top: 395px;
     font-size: 14px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
   }
@@ -211,16 +224,20 @@ export default {
     padding: 0;
     top: 170px;
     position: absolute;
-    margin-left: 350px;
-    width: 594px;
-    height: 335px;
-    box-shadow: 0 0 10px gray;
+    margin-left: 260px;
+    width: 694px;
+    height: 391px;
+    
   }
 
   .player__video {
     position: absolute;
-    top: -33px;
+    top: -5px;
     left: 2px;
+    height: 390px;
+    border-left: 2px solid #f6f6e9;
+    border-right: 2px solid #f6f6e9;
+    box-shadow: 0 0 10px gray;
   }
 
   .play__button {
@@ -233,11 +250,11 @@ export default {
 
   .play__button, .pause__button {
     position: absolute;
-    
+    z-index: 100;
     background-size: auto 46px;
     height: 46px;
     width: 46px;
-    top: 345px;
+    top: 395px;
     margin-left: 10px;
     opacity: 0.7;
   }
@@ -249,11 +266,12 @@ export default {
 
   .stop__button {
     position: absolute;
+    z-index: 100;
     background-image: url('./images/stop-button.png');
     background-size: 23px 23px;
     width: 23px;
     height: 23px;
-    top: 367px;
+    top: 417px;
     margin-left: 60px;
     opacity: 0.7;
   }
@@ -261,10 +279,11 @@ export default {
   .progress__player {
     border-radius: 5px;
     height: 5px;
-    width: 450px;
+    width: 600px;
     background-color: lightgray;
-    position: absolute;
-    top: 353px;
+    position: relative;
+    margin-right: 10px;
+    top: 403px;
     margin-left: 62px;
     flex: 10;
     flex-basis: 100%
@@ -281,9 +300,6 @@ export default {
     background: rgb(73, 73, 255);
     width: 0%;
     height: 5px;
-    flex: 0;
-    transition: all .2s ease;
-    flex-basis: 50%;
   }
 
   .progress_pseudo {
@@ -296,10 +312,10 @@ export default {
   .volume_and_speed_holder {
     background-color: rgba(211, 211, 211, 0.8);
     height: 22px;
-    width: 500px;
+    width: 600px;
     position: absolute;
     border-radius: 10px;
-    top: 368px;
+    top: 418px;
     margin-left: 94px;
     padding: 3px;
   }
@@ -330,7 +346,7 @@ export default {
     width: 55px;
     position: relative;
     margin-left: 33px;
-    top: -9px;
+    top: -7px;
     background-color: rgba(211, 211, 211, 0);
   }
 
@@ -373,12 +389,108 @@ export default {
     .background-image_lesson {
     background-image: url('./images/background-image_lesson.png');
     background-repeat: no-repeat;
-    top: 1px;
-    left: 2px;
-    background-size: 590px 332px;
-    width: 590px;
-    height: 332px;
+    top: -3px;
+    left: 4px;
+    background-size: 690px 389px;
+    width: 686px;
+    height: 386px;
     position: absolute;
     z-index: 100;
   }
+
+  @media screen and (max-width: 980px) {
+    .player {
+      margin-left: 180px;
+    }
+  }
+
+  @media screen and (max-width: 900px) {
+    .player {
+      width: 70%;
+      margin-left: unset;
+      right: 20px;
+    }
+    .player__video {
+      width: 99.3%;
+    }
+
+    .background-image_lesson {
+      display: none;
+    }
+
+    .volume_and_speed_holder {
+      width: 84%;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    .volume_and_speed_holder {
+      width: 75%;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .confused_man {
+      display: none;
+    }
+
+  }
+
+  @media screen and (max-width: 570px) {
+    .player__video {
+      height: 297px;
+      top: 80px;
+    }
+
+    .player {
+      right: unset;
+      left: 10px;
+      width: 95.5%;
+      height: 320px
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    .player {
+      left: 5px;
+      width: 95%;
+    }
+
+
+
+    .progress__player {
+      flex-basis: 90%; 
+    }
+
+    .speed_controller {
+      margin-right: 20px;
+    }
+  }
+
+  @media screen and (max-width: 350px) {
+    .progress__player {
+      flex-basis: 69%;
+    }
+
+    .volume_and_speed_holder {
+      position: absolute;
+      margin-left: unset;
+      left: 94px
+    }
+
+    .speed_controller {
+      position: absolute;
+      margin-right: 0;
+      float: unset;
+      top: 4px;
+      left: 100px;
+    }
+
+    .navigators {
+      right: unset;
+      left: 100px;
+    }
+  }
+
+
 </style>

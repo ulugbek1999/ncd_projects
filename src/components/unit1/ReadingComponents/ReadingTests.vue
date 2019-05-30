@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4>Reading A1: A poster for exam candidates - 2</h4>
+        <h4>Reading Exercise </h4>
             <h5>Choose the sentence that has the same meaning</h5>
             <div class="remaining_items">
                 {{ remaining }} items remaining
@@ -8,7 +8,7 @@
             <div class="task_container">
                 <p style="height: 50px; margin: 0">{{ tests[currentQuestion].question }}</p>
                 <div v-for="(item, index) in tests[currentQuestion].answers" :key="index">
-                    <input type="radio" :data-correct="item.correct" :id="'radio' + index" :value="item.correct" v-model="tests[currentQuestion].answered" name="reading_test" class="radio-button">
+                    <input type="radio" :data-correct="item.correct" :id="'radio' + index"  :value="item.correct" v-model="tests[currentQuestion].answered" name="reading_test" class="radio-button">
                     <label :for="'radio' + index">{{ item.answer }}</label><br><br><br>
                 </div>
                 <div class="progress_shower">
@@ -111,11 +111,15 @@ export default {
     },
     methods: {
         prevQuestion () {
-            this.radioButtonUnchecker()
+            if (this.tests[this.currentQuestion - 1].answered == "") {
+                this.radioButtonUnchecker()                
+            }
             this.currentQuestion--
         },
         nextQuestion () {
-            this.radioButtonUnchecker()
+            if (this.tests[this.currentQuestion + 1].answered == "") {
+                this.radioButtonUnchecker()
+            }
             this.currentQuestion++
         },
         radioButtonUnchecker () {
@@ -132,6 +136,9 @@ export default {
             }
             alert("Correct answers: " + this.correctAnswers)
             this.correctAnswers = 0;
+        },
+        correctChecker (value) {
+            this.tests[this.currentQuestion].answered = value
         }
     },
     computed: {
@@ -185,14 +192,18 @@ export default {
         margin-right: 40px;
     } 
 
+    .margin-unset {
+        margin-right: unset !important;
+    }
+
     .line {
         background-color: #658600;
         width: 235px !important;
         height: 4px !important;
         position: relative;
-        left: 260px;
-        top: 14px;
-        position: absolute;
+        margin: 0 auto;
+        top: -14px;
+        left: -20px
     }
     .progress_custom span {
         position: relative;
@@ -234,5 +245,46 @@ export default {
     .active-question {
         background-color: #9bbd34 !important;
     }
+
+    @media screen and (max-width: 1000px) {
+        .remaining_items {
+            left: unset;
+            float: right
+        }
+    }
+
+    @media screen and (max-width: 590px) {
+        .task_container {
+            margin-top: 10px;
+            font-size: 14px
+        }
+
+        .task_container p {
+            width: 100%;
+        }
+
+        .remaining_items {
+            float: unset;
+            position: absolute;
+            right: 10px;
+            top: 110px;
+        }
+    }
+
+    @media screen and (max-width: 385px) {
+        .round {
+            opacity: 0;
+        }
+
+        .line {
+            opacity: 0;
+        }
+
+        .task_container {
+            font-size: 12px;
+        }
+    }
+
+
 </style>
 

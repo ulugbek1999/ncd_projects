@@ -98,6 +98,7 @@
 export default {
     data () {
         return {
+            scrollDisabled : false
         }
     },
     methods: {
@@ -108,11 +109,17 @@ export default {
         },
         menuAnimator (event) {
             document.getElementById("myNav").style.width = "100%";
+            this.disable_enableScroll()
         },
         openNav() {
         },
         closeNav() {
             document.getElementById("myNav").style.width = "0%";
+            this.scrollDisabled = true;
+            this.disable_enableScroll()
+        },
+        disable_enableScroll () {
+            this.$emit('disabled', this.scrollDisabled)
         }
     },
     mounted () {
@@ -134,7 +141,9 @@ body {
   overflow: hidden;
 }
 
-
+html {
+    overflow: hidden;
+}
 
 
 a {

@@ -1,12 +1,27 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <script>
+import AuthHandler from './Authorization/AuthHandler'
 export default {
-  name: 'App'
+  name: 'App',
+  data () {
+    return {
+      scrollDisable: false
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+
+    })
+  },
+  beforeCreate() {
+    const auth = new AuthHandler()
+    auth.checkAuthentication()
+  }
 }
 </script>
 

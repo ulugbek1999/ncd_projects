@@ -1,12 +1,31 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import VueCookies from 'vue-cookies'
 import ErrorPage from '@/components/ErrorPage'
-// import HomePage from '@/components/unit1/HomePage'
-// import Unit1Tests from '@/components/unit1/children/TestsContainer'
-// import NavigationHolder from '@/components/unit1/NavigationHolder'
 import Unit1_vocabulary from '@/components/unit1/Vocabulary.vue'
+import store from '../store'
+import AuthHandler from '../Authorization/AuthHandler'
 
+Vue.use(VueCookies)
 // Lazily load routes
+const Administer = resolve => {
+  require.ensure(['@/components/Administer'], () => {
+    resolve(require('@/components/Administer'))
+  })
+}
+
+const UnitsHandler = resolve => {
+  require.ensure(['@/components/Administration/UnitsHandler'], () => {
+    resolve(require('@/components/Administration/UnitsHandler'))
+  })
+}
+
+const MainPage = resolve => {
+  require.ensure(['@/components/MainPage'], () => {
+    resolve(require('@/components/MainPage'))
+  })
+}
+
 const HomePage = resolve => {
   require.ensure(['@/components/unit1/HomePage'], () => {
     resolve(require('@/components/unit1/HomePage'))
@@ -86,6 +105,18 @@ const Unit1_homework = resolve => {
   })
 }
 
+const Profile = resolve => {
+  require.ensure(['@/components/Profile'], () => {
+    resolve(require('@/components/Profile'))
+  })
+}
+
+const Dashboard = resolve => {
+  require.ensure(['@/components/main/dashboard/Dashboard'], () => {
+    resolve(require('@/components/main/dashboard/Dashboard'))
+  })
+}
+
 import FlipClock from '@/components/FlipClock'
 
 Vue.use(Router)
@@ -96,6 +127,11 @@ export default new Router({
       path: '/error',
       name: 'ErrorPage',
       component: ErrorPage
+    },
+    {
+      path: '/en',
+      name: 'MainPage',
+      component: MainPage
     },
     {
       path: '/flipclock',
@@ -186,7 +222,53 @@ export default new Router({
     {
       path: '*',
       redirect: {
-        name: 'Unit1'
+        name: 'MainPage'
+      }
+    },
+    {
+      path: '/administer',
+      name: 'administer',
+      component: Administer
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: Profile,
+      redirect: {name: "dashboard"},
+      beforeEnter (to, from, next) {
+        if (VueCookies.get('userData')) {
+          if (VueCookies.get('userData')["token"]) {
+            next()
+          }
+          else {
+            next({name: 'MainPage'})
+          }
+        }
+        else {
+          next({name: 'MainPage'})
+        }
+      },
+      children: [
+        {
+          path: '/dashboard',
+          name: 'dashboard',
+          component: Dashboard
+        }
+      ]
+    },
+    {
+      path: '/admin-page',
+      name: 'admin-page',
+      component: UnitsHandler,
+      beforeEnter: (to, from, next)=> {
+        if(VueCookies.isKey('userData')) {
+          if (VueCookies.get('userData')["token"])
+            
+            next()
+        }
+        else {
+          next({name: 'administer'})
+        }
       }
     }
   ],

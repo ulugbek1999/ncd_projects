@@ -17,7 +17,7 @@
                             <router-link :to='{name: "MainPage"}' class="nav-link" href="#">Home <span class="sr-only">(current)</span></router-link>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Courses</a>
+                            <router-link tag="a" :to="{name: 'courses'}" active-class="active" class="nav-link" href="#">Courses</router-link>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">About us</a>
@@ -25,17 +25,25 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contact us</a>
                         </li>
-                        <li class="nav-item dropdown user-information">
+                        <li class="nav-item dropdown user-information" v-if="auth">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ getUsername }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Dashboard</a>
-                                <a class="dropdown-item" href="#">Settings</a>
+                                <router-link tag="a" :to="{name: 'dashboard'}" class="dropdown-item" href="">Dashboard</router-link>
+                                <router-link tag="a" :to="{name: 'settings'}" class="dropdown-item" href="">Settings</router-link>
                                 <div class="dropdown-divider"></div>
-                                <a @click="logout" class="dropdown-item" href="#">Logout</a>
+                                <a @click="logout" class="dropdown-item" href="">Logout</a>
                             </div>
                         </li>
+                        <div class="login-register" v-else>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Log in</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Sign up</a>
+                            </li>
+                        </div>
                     </ul>
                 </div>
             </nav>
@@ -51,7 +59,8 @@ export default {
         }
     },
     methods: {
-        logout () {
+        logout (event) {
+            event.preventDefault()
             this.$store.dispatch('logoutDispatcher')
             this.$router.replace({name: 'MainPage'})
         }
@@ -99,6 +108,17 @@ export default {
         position: absolute;
         right: 0;
         margin-right: 100px;
+    }
+
+    .login-register {
+        position: absolute;
+        right: 0;
+        float: right;
+        margin-right: 50px;
+    }
+
+    .login-register li {
+        float: left;
     }
 
 </style>

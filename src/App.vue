@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view />
+    <transition name="fade-custom" mode="out-in">
+      <router-view />
+    </transition>
   </div>
 </template>
 
@@ -15,7 +17,7 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-
+      
     })
   },
   beforeCreate() {
@@ -25,7 +27,43 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+
+// @import "../node_modules/vue2-animate/src/sass/vue2-animate.scss";
+.fade-custom-enter {
+  opacity: 0
+}
+
+.fade-custom-enter-active {
+  animation: fade-in 1s ease-out forwards;
+}
+
+.fade-custom-leave {
+  opacity: 1;
+}
+
+.fade-custom-leave-active {
+  transition: opacity 0.5s ease;
+  opacity: 0;
+}
+
+ @keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    transform: translateY(0)
+  }
+  100% {
+    transform: translateY(-30px)
+  }
+} 
 
 body {
   overflow-x: hidden;

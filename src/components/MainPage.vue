@@ -76,7 +76,7 @@
                 <nav class="nav-holder">
                     <ul>
                         <li class="active-nav">Home</li>
-                        <li>Courses</li>
+                        <router-link tag="li" :to="{name: 'courses'}">Courses</router-link>
                         <li>About us</li>
                         <li>Contact us</li>
                     </ul>
@@ -97,9 +97,9 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <router-link tag="a" class="dropdown-item" :to="{name: 'dashboard'}">Dashboard</router-link>
-                        <a class="dropdown-item" href="#">Settings</a>
+                        <router-link tag="a" :to="{name: 'settings'}" class="dropdown-item" href="#">Settings</router-link>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <a class="dropdown-item" @click="logout" href="">Logout</a>
                     </div>
                 </div>
                 <div class="books-image-holder">
@@ -312,30 +312,18 @@ export default {
         openFormLogin () {
             $('#form-login').css('display', 'block')
             this.formOpened = true
-            this.scrollDisabler()
         },
         closeLoginForm () {
             $('#form-login').css('display', 'none')
             this.formOpened = false
-            this.scrollDisabler()
         },
         openSignUpForm () {
             $('#form-signup').css('display', 'block')
             this.formOpened = true
-            this.scrollDisabler()
         },
         closeSignUpForm () {
             $('#form-signup').css('display', "none")
              this.formOpened = false
-            this.scrollDisabler()
-        },
-        scrollDisabler () {
-            if (this.formOpened) {
-                $('body').css('overflow-y', 'hidden')
-            }
-            else {
-                $('body').css('overflow-y', 'scroll')
-            }
         },
         login (event) {
             event.preventDefault()
@@ -346,6 +334,10 @@ export default {
                     const auth = new AuthHandler(this.loginData.username, this.loginData.password)
                     auth.enableAccess()
                 }
+        },
+        logout(event) {
+            event.preventDefault()
+            this.$store.dispatch('logoutDispatcher')
         }
     },
     computed: {

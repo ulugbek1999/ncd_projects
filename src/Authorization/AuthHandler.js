@@ -26,9 +26,9 @@ export default class AuthHandler {
         customAxios.post('authenticate/', {"username" : this.username, "password" : this.password})
             .then(response => {
             if (response.status === 200 && response.data.token) {
-                store.dispatch('setLogoutTimer', response.data)
+                store.dispatch('reloginTimer', response.data.expirationTime)
                 store.dispatch('tokenSetter', response.data)
-                console.log(response.data)
+                
             }
         })
             .catch(error => {
@@ -53,16 +53,21 @@ export default class AuthHandler {
                             const username = VueCookies.get('userData').username
                             const newUserData = {user_id: user_id, token: response.data.token, username: username}
                             store.dispatch('tokenSetter', newUserData)
+                            store.dispatch('reloginTimer', 3600000)
                             return true
+                        }
+                        else  {
+                            return false
+                        }
+                    })
+                    .catch(() => {
+                        if (VueCookies.isKey('userData')) {
+                            VueCookies.remove('userData')
+                            return false
                         }
                         else {
                             return false
                         }
-                    })
-                    .catch(error => {
-                        console.log(error)
-                        router.push({name: 'ErrorPage'})
-                        throw new Error(error)
                     })
                     .finally(() => {
                         store.state.loading = false
@@ -73,8 +78,36 @@ export default class AuthHandler {
                 return false
             }
         } catch (error) {
-            router.replace({name: "ErrorPage"})
-            throw new Error(error)
+            return false
         }
-    }
+    };
+
+    loadUserInformation() {
+        if (VueCookies.isKey('userData')) {
+            const user_id = VueCookies.get('userData').user_id
+            const token = VueCookies.get('userData').token
+            customAxios.get('users/' + user_id, {headers: {Authorization: 'JWT ' + token}})
+                .then(response => {
+                    if (response.data && response.status === 200) {
+                        store.dispatch('userInformationDispatcher', response.data)
+                    }
+                })
+                .catch(error => {
+                    const data = {
+                        gender: '',
+                        date_of_birth: '',
+                        country: '',
+                        city: '',
+                        bio: '',
+                        owner: VueCookies.get('userData').username
+                    }
+                    store.dispatch('userInformationDispatcher', data)
+                    console.log(new Error("Could not load user information from the server. Probably there is a problem with the server or user information is not specified. Returned empty object!"))
+                })
+                .finally(() => {
+                    store.state.loadingProfile = false
+                })
+        }
+    };
+
 }

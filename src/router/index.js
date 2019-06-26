@@ -6,6 +6,7 @@ import Unit1_vocabulary from '@/components/unit1/Vocabulary.vue'
 import store from '../store'
 import AuthHandler from '../Authorization/AuthHandler'
 
+
 Vue.use(VueCookies)
 // Lazily load routes
 const Administer = resolve => {
@@ -114,6 +115,27 @@ const Profile = resolve => {
 const Dashboard = resolve => {
   require.ensure(['@/components/main/dashboard/Dashboard'], () => {
     resolve(require('@/components/main/dashboard/Dashboard'))
+  })
+}
+
+const Settings = resolve => {
+  require.ensure(['@/components/main/settings/Settings'], () => {
+    resolve(require('@/components/main/settings/Settings'))
+  })
+}
+const Courses = resolve => {
+  require.ensure(['@/components/main/Courses'], () => {
+    resolve(require('@/components/main/Courses'))
+  })
+}
+const AllCourses = resolve => {
+  require.ensure(['@/components/main/courses-sub/AllCourses'], () => {
+    resolve(require('@/components/main/courses-sub/AllCourses'))
+  })
+}
+const LearningRoute = resolve => {
+  require.ensure(['@/components/main/courses-sub/LearningRoute'], () => {
+    resolve(require('@/components/main/courses-sub/LearningRoute'))
   })
 }
 
@@ -250,11 +272,34 @@ export default new Router({
       },
       children: [
         {
-          path: '/dashboard',
+          path: 'dashboard',
           name: 'dashboard',
           component: Dashboard
+        },
+        {
+          path: 'settings',
+          name: 'settings',
+          component: Settings
         }
       ]
+    },
+    {
+      path: '/courses',
+      name: 'courses',
+      component: Courses,
+      redirect: {name: 'all-courses'},
+      children: [
+        {
+        path: 'all-courses',
+        name: 'all-courses',
+        component: AllCourses
+        },
+        {
+          path: 'learning-route',
+          name: 'learning-route',
+          component: LearningRoute
+        }
+    ]
     },
     {
       path: '/admin-page',

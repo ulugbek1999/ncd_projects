@@ -1,16 +1,18 @@
 <template>
     <div class="sidebar">
-        <div class="user-icon"></div>
-        <h4>John Doe</h4>
+        <div style="display: flex">
+            <div class="user-icon"></div>
+            <h4 style="margin: 5px 15px">{{ firstLastName }}</h4>
+        </div>
         <hr>
         <div class="side-links">
             <ul>
-                <li class="side-link active-sidebar">
-                    <a href="">
+                <router-link tag="li" :to="{name: 'dashboard'}" active-class="active-sidebar" class="side-link" exact>
+                    <a>
                         <div class="dashboard-image"></div>
                         <p>Dashboard</p>
                     </a>
-                </li>
+                </router-link>
                 <li class="side-link">
                     <a href="">
                         <div class="message-image"></div>
@@ -31,12 +33,12 @@
                 </li>
                 <hr>
                 <span class="settings-span">Settings</span>
-                <li class="side-link">
-                    <a href="">
+                <router-link tag="li" :to="{name: 'settings'}" active-class="active-sidebar" class="side-link">
+                    <a>
                         <div class="settings-image"></div>
                         <p>Main Settings</p>
                     </a>
-                </li>
+                </router-link>
                 <li class="side-link">
                     <a href="">
                         <div class="notification-image"></div>
@@ -50,7 +52,11 @@
 
 <script>
 export default {
-    
+    computed: {
+        firstLastName () {
+            return this.$store.getters.fullName
+        }
+    }
 }
 </script>
 

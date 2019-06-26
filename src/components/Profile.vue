@@ -20,6 +20,8 @@
 import Header from './main/Header.vue'
 import Sidebar from './main/Sidebar.vue';
 import Loader from './Loader'
+import axios from '../CustomAxios'
+import AuthHandler from '../Authorization/AuthHandler'
 export default {
     data () {
         return {
@@ -33,8 +35,17 @@ export default {
     },
     computed: {
         loading () {
-            return this.$store.getters.beingLoaded
+            return this.$store.getters.loadingProfile
         }
+    },
+    methods: {
+        loadUserInformation () {
+            var auth = new AuthHandler()
+            auth.loadUserInformation()
+        }
+    },
+    created () {
+        this.loadUserInformation()
     }
 }
 </script>

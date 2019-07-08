@@ -1,50 +1,51 @@
 <template>
     <div class="sidebar">
-        <div style="display: flex">
-            <div class="user-icon"></div>
-            <h4 style="margin: 5px 15px">{{ firstLastName }}</h4>
+        <div class="user-credentials-container" v-if="credentials">
+            <div style="display: flex">
+                <div class="user-icon"></div>
+                <h4 style="margin: 5px 15px">{{ firstLastName }}</h4>
+            </div>
+            <hr>
         </div>
-        <hr>
         <div class="side-links">
             <ul>
-                <router-link tag="li" :to="{name: 'dashboard'}" active-class="active-sidebar" class="side-link" exact>
+                <router-link 
+                tag="li" 
+                :to="link.toNavigate" 
+                active-class="active-sidebar" 
+                class="side-link" 
+                :id="'side-link-' + index" 
+                exact 
+                v-for="(link, index) in sideLinks" :key="'A-' + index" >
                     <a>
-                        <div class="dashboard-image"></div>
-                        <p>Dashboard</p>
+                        <div 
+                        class="side-icon"  
+                        :id="'side-link-image-' + index" 
+                        :data-hovered="link.hoverImage"
+                        :style="{backgroundImage: 'url(' + link.mainImage + ')'}"></div>
+                        <p>{{ link.name }}</p>
+                    </a>
+                    
+                </router-link>
+                <div class="extras" v-if="extraName">
+                    <hr>
+                    <span class="settings-span">{{ extraName }}</span>
+                </div>
+                <router-link 
+                tag="li" 
+                :to="extraLink.toNavigate" 
+                active-class="active-sidebar" 
+                class="side-link"
+                v-for="(extraLink, extraIndex) in extraLinks"
+                :key="'B-' + extraIndex"
+                exact
+                :v-if="extraIndex != 0"
+                >
+                    <a>
+                        <img class="side-icon" :src="extraLink.mainImage" :id="'extra-link-image-' + extraIndex" :data-hovered="extraLink.hoverImage">
+                        <p>{{ extraLink.name }}</p>
                     </a>
                 </router-link>
-                <li class="side-link">
-                    <a href="">
-                        <div class="message-image"></div>
-                        <p>Messages</p>
-                    </a>
-                </li>
-                <li class="side-link">
-                    <a href="">
-                        <div class="tasks-image"></div>
-                        <p>Tasks</p>
-                    </a>
-                </li>
-                <li class="side-link">
-                    <a href="">
-                        <div class="friends-image"></div>
-                        <p>Friends</p>
-                    </a>
-                </li>
-                <hr>
-                <span class="settings-span">Settings</span>
-                <router-link tag="li" :to="{name: 'settings'}" active-class="active-sidebar" class="side-link">
-                    <a>
-                        <div class="settings-image"></div>
-                        <p>Main Settings</p>
-                    </a>
-                </router-link>
-                <li class="side-link">
-                    <a href="">
-                        <div class="notification-image"></div>
-                        <p>Notifications</p>
-                    </a>
-                </li>
             </ul>
         </div>
     </div>
@@ -55,7 +56,46 @@ export default {
     computed: {
         firstLastName () {
             return this.$store.getters.fullName
+        },
+        getUserId () {
+            return this.$store.getters.getUserId
         }
+    },
+    props: {
+        credentials: {
+            type: Boolean,
+            default: false
+        },
+        sideLinks: {
+            type: Array,
+            default: null
+        },
+        extra: {
+            type: Boolean,
+            default: false
+        },
+        extraLinks: {
+            type: Array,
+            default: null
+        },
+        extraName: {
+            type: String,
+            default: null
+        }
+    },
+    methods: {
+
+    },
+    data () {
+        return {
+            linkHover: false
+        }
+    },
+    mounted () {
+       
+    },
+    watch: {
+
     }
 }
 </script>
@@ -67,7 +107,7 @@ export default {
             right: 1px solid lightgray;
             bottom: 1px solid lightgray;
         }
-        padding: 40px 20px;
+        padding: 30px 20px;
     }
 
     .side-links > ul > li {
@@ -105,21 +145,20 @@ export default {
         text-decoration: none;
     }
 
-    .dashboard-image {
+    .side-icon {
         background: {
             size: cover;
-            image: url('../../assets/main/dashboard.png');
             repeat: no-repeat;
             position: center;
-        }
+        } 
         opacity: 0.6;
         height: 25px;
         width: 25px;
     }
 
-    .side-link:hover .dashboard-image, .active-sidebar .dashboard-image {
-         background-image: url('../../assets/main/dashboard-active.png')
-    }
+    // .side-link:hover .side-icon, .active-sidebar .side-icon {
+    //      background-image: url('../../assets/main/side-icon.png')
+    // }
 
     .side-link p {
         margin-left: 20px;
@@ -140,53 +179,12 @@ export default {
         border-radius: 4px;
     }
 
-    .message-image {
-        @extend .dashboard-image;
-        background-image: url('../../assets/main/message.png')
+    .active-sidebar {
+        pointer-events: none;
     }
 
     .side-link:hover a, .active-sidebar a {
         color: #2196F3
-    }
-
-    .side-link:hover .message-image, .active-sidebar .message-image {
-         background-image: url('../../assets/main/message-active.png')
-    }
-
-    .tasks-image {
-        @extend .dashboard-image;
-        background-image: url('../../assets/main/tasks.png')
-    }
-
-    .side-link:hover .tasks-image, .active-sidebar .tasks-image {
-         background-image: url('../../assets/main/tasks-active.png')
-    }
-
-    .friends-image {
-        @extend .dashboard-image;
-        background-image: url('../../assets/main/friends.png')
-    }
-
-    .side-link:hover .friends-image, .active-sidebar .friends-image {
-         background-image: url('../../assets/main/friends-active.png')
-    }
-
-    .settings-image {
-        @extend .dashboard-image;
-        background-image: url('../../assets/main/settings.png')
-    }
-
-    .side-link:hover .settings-image, .active-sidebar .settings-image {
-        background-image: url('../../assets/main/settings-active.png')
-    }
-
-    .notification-image {
-        @extend .dashboard-image;
-        background-image: url('../../assets/main/notification.png')
-    }
-
-    .side-link:hover .notification-image, .active-sidebar .notification-image {
-        background-image: url('../../assets/main/notification-active.png')
     }
 
     .settings-span {

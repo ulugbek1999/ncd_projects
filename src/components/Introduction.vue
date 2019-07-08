@@ -25,6 +25,7 @@
             <div class="message-container fadeIn"></div>
         <div class="puss-in-boots fadeInUp"></div>
         <div class="arrow-right" @click="switcher();">&#8594;</div>
+        <router-link tag="span" class="skip" :to="{name: 'course', params: {id: 1}}">Skip tutorial</router-link>
     </div>
 </template>
 
@@ -78,11 +79,60 @@ export default {
                     id: 3,
                     stage: "Theory",
                     heading: "Theoretical part",
-                    text_above: "",
+                    text_above: "Theory will provide a clear vision of the topic and grammar for each specific unit",
                     points: null,
-                    text_bellow: "",
+                    text_below: "Learn rules and see the examples to succesfully apply them in practical part",
                     picture: true,
                     src: require('../assets/main/theory.jpg')
+                },
+                {
+                    id: 4,
+                    stage: "Listening",
+                    heading: "Listening part",
+                    text_above: "Listening will improve your ability to listen to English speech",
+                    points: null,
+                    text_below: "Try to understand everything you listen to",
+                    picture: true,
+                    src: require('../assets/main/listening.jpg')
+                },
+                {
+                    id: 5,
+                    stage: "Reading",
+                    heading: "Reading part",
+                    text_above: "This part is about improving your skills in reading foreign texts",
+                    points: null,
+                    text_below: "Several texts with different topics will be given for you with different levels of difficulty",
+                    picture: true,
+                    src: require('../assets/main/reading.jpg')
+                },
+                {
+                    id: 6,
+                    stage: "Vocabulary",
+                    heading: "Vocabulary part",
+                    text_above: "Learning vocabulary is one of the best ways to learn a new language",
+                    points: null,
+                    text_below: "Try to learn every new single word by heart",
+                    picture: true,
+                    src: require('../assets/main/vocabulary.jpg')
+                },
+                {
+                    id: 7,
+                    stage: "Writing",
+                    heading: "Writing part",
+                    text_above: "This part will assist you in improving your writing skills",
+                    points: null,
+                    text_below: "Develop your writing as well as typing skills",
+                    picture: true,
+                    src: require('../assets/main/writing.jpg')
+                },
+                {
+                    id: 8,
+                    stage: "End",
+                    heading: "Good luck!",
+                    text_above: "",
+                    picture: true,
+                    text_below: "Now let's get started",
+                    src: require('../assets/main/learn.jpg')
                 }
             ],
             overflowHidden: true,
@@ -180,21 +230,18 @@ export default {
             if (this.currentStage == 1) {
                 this.startTraining()
             }
-            else {
+            else if (this.currentStage < this.stages.length) {
                 $('.main-content-container').addClass('fadeOutLeft')
                 $('.main-content-container').removeClass('fadeInRight')
                 setTimeout(() => {
-                    if (this.currentStage < this.stages.length) {
-                        this.currentStage++
-                        $('.main-content-container').removeClass('fadeOutLeft')
-                        $('.main-content-container').addClass('fadeInRight')
-                    }
-                    else {
-                        this.$router.push({name: 'MainPage'})
-                    }
+                    this.currentStage++
+                    $('.main-content-container').removeClass('fadeOutLeft')
+                    $('.main-content-container').addClass('fadeInRight')
                 }, 500)
             }
-
+            else {
+                this.$router.push({name: 'course'})
+            }
         }
     },
     mounted() {
@@ -237,6 +284,20 @@ export default {
         }
     }
 
+    .skip {
+        color: #fff;
+        font-size: 18px;
+        position: absolute;
+        bottom: 0;
+        right: 90px;
+        padding: 30px;
+        opacity: 0.7;
+    }
+
+    .skip:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
 
     .closer {
         position: absolute;
@@ -244,6 +305,10 @@ export default {
         color: #fff;
         font-size: 60px;
         opacity: 0.8;
+        user-select: none;
+    }
+
+    * {
         user-select: none;
     }
 

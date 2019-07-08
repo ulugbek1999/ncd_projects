@@ -34,7 +34,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Where are you from?</h5>
                                 <p class="card-text">This lesson will teach you how to use the verb "to be" with pronouns like "he, she, it"</p>
-                                <a href="#" class="btn btn-success">Start lesson</a>
+                                <router-link tag="button" :to="{name: 'course', params: {id: 2}}" class="btn btn-success">Start lesson</router-link>
                             </div>
                         </div>
                         <div class="card" style="width: 18rem;">
@@ -42,7 +42,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">The alphabet</h5>
                                 <p class="card-text">"A, B, C, D, E, F, G". Recall your time at school when you were singing that song!</p>
-                                <a href="#" class="btn btn-success">Start lesson</a>
+                                <router-link tag="button" href="#" :to="{name: 'course', params: {id: 3}}" class="btn btn-success">Start lesson</router-link>
                             </div>
                         </div>
                         <div class="card" style="width: 18rem;">
@@ -50,7 +50,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">What do you remember?</h5>
                                 <p class="card-text">So far we have covered the usage the verb "to be" with personal pronouns. Now it's time to practice!</p>
-                                <a href="#" class="btn btn-success">Start lesson</a>
+                                <button href="#" :to="{name: 'course', params: {id: 4}}" class="btn btn-success">Start lesson</button>
                             </div>
                         </div>
                     </div>

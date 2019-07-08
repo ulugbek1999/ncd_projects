@@ -47,6 +47,10 @@ export default {
   opacity: 0;
 }
 
+#app {
+  height: 100%;
+}
+
  @keyframes fade-in {
   0% {
     opacity: 0;

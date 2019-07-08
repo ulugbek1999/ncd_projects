@@ -20,34 +20,53 @@
                 </div>
             </form>
         </div>
+        <div class="requestProcessed" v-if="requestProcessed">
+            <ncd-processing color="#888"></ncd-processing> <p style="margin: 5px 10px; font-size: 15px; color: #666">Please, wait until request is processed...</p> 
+        </div>
+        <p class="error alert-danger" v-if="errorOccured">{{ errorMessage }}</p>
     </div>
 </template>
 
 <script>
-import AuthHandler from '../Authorization/AuthHandler'
+import AuthHandler, { eventBus } from '../Authorization/AuthHandler'
 
-import {eventBus} from '../Authorization/AuthHandler'
+import Loader from 'vue-spinner/src/ClipLoader'
+import { mapGetters } from 'vuex';
 
 export default {
     methods: {
         login (event) {
             event.preventDefault()
+            this.errorOccured = false
             var auth = new AuthHandler(this.credentials.username, this.credentials.password)
-            auth.enableAccess()
+            auth.loginAsAdmin()
             this.$router.push({name: 'admin-page'})
 
         }
     },
     data () {
-
         return {
             credentials: {
                 username: '',
                 password: ''
-            }
+            },
+            errorOccured: false,
+            errorMessage: ''
+        }
+    },
+    computed: {
+        requestProcessed () {
+            return this.$store.getters.requestProcessed
         }
     },
     created() {
+        eventBus.$on('errorOccured', (data) => {
+            this.errorOccured = true
+            this.errorMessage = data
+        })
+    },
+    components: {
+        'ncd-processing' : Loader
     }
 }
 </script>
@@ -59,7 +78,7 @@ export default {
 </style>
 
 
-<style scoped>
+<style lang="scss" scoped>
     .admin-login {
         box-shadow: 0 0 10px lightgray;
         width: 400px;
@@ -94,5 +113,23 @@ export default {
         border-top-left-radius: 4px;
         text-align: center;
         padding: 15px 0;
+    }
+
+    .requestProcessed {
+        position: relative;
+        top: 500px;
+        width: 400px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .error {
+        position: relative;
+        top: 500px;
+        width: 400px;
+        margin: 0 auto;
+        text-align: center;
+        padding: 10px 0;
+        border-radius: 10px;
     }
 </style>

@@ -77,7 +77,7 @@
                     <ul>
                         <li class="active-nav">Home</li>
                         <router-link tag="li" :to="{name: 'courses'}">Courses</router-link>
-                        <li>About us</li>
+                        <li>Materials</li>
                         <li>Contact us</li>
                     </ul>
                 </nav>
@@ -96,8 +96,8 @@
                         {{ getUsername }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <router-link tag="a" class="dropdown-item" :to="{name: 'dashboard'}">Dashboard</router-link>
-                        <router-link tag="a" :to="{name: 'settings'}" class="dropdown-item" href="#">Settings</router-link>
+                        <router-link tag="a" class="dropdown-item" :to="{name: 'dashboard', params: {userId: getUserId}}">Dashboard</router-link>
+                        <router-link tag="a" :to="{name: 'settings', params: {userId: getUserId}}" class="dropdown-item" href="#">Settings</router-link>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" @click="logout" href="">Logout</a>
                     </div>
@@ -350,6 +350,9 @@ export default {
         },
         getUsername () {
             return this.$store.getters.username
+        },
+        getUserId () {
+            return this.$store.getters.getUserId
         }
     },
     watch: {

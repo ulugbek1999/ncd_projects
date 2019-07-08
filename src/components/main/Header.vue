@@ -20,7 +20,7 @@
                             <router-link tag="a" :to="{name: 'courses'}" active-class="active" class="nav-link" href="#">Courses</router-link>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About us</a>
+                            <a class="nav-link" href="#">Materials</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contact us</a>
@@ -30,8 +30,8 @@
                             {{ getUsername }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <router-link tag="a" :to="{name: 'dashboard'}" class="dropdown-item" href="">Dashboard</router-link>
-                                <router-link tag="a" :to="{name: 'settings'}" class="dropdown-item" href="">Settings</router-link>
+                                <router-link tag="a" :to="{name: 'dashboard', params: {userId: getUserId}}" class="dropdown-item" href="">Dashboard</router-link>
+                                <router-link tag="a" :to="{name: 'settings', params: {userId: getUserId}}" class="dropdown-item" href="">Settings</router-link>
                                 <div class="dropdown-divider"></div>
                                 <a @click="logout" class="dropdown-item" href="">Logout</a>
                             </div>
@@ -71,6 +71,9 @@ export default {
         },
         getUsername () {
             return this.$store.getters.username
+        },
+        getUserId () {
+            return this.$store.getters.getUserId
         }
     }
 }

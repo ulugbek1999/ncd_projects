@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VueCookies from 'vue-cookies'
 import { customAxios } from './CustomAxios'
-
+import router from './router/index'
 
 Vue.use(Vuex);
 
@@ -26,10 +26,20 @@ export default new Vuex.Store({
                 owner: null
             }
         },
+        adminToken: null,
         lessonModalOpened: false,
         requestProcessed: false,
         loading: true,
-        loadingProfile: true
+        loadingEnglishFile: true,
+        englishFile: null,
+        loadingProfile: true,
+        colorsets: ['rgb(64, 36, 224)', '#dfb313', 'rgb(73, 223, 19)'],
+        colorSetIndex: 0,
+        modelInfo: {
+            name: 'Model',
+            color: "rgb(73, 223, 19)"
+        },
+        baseStaticUrl: 'https://ncd-interlingvo.herokuapp.com/static/'
     },
     mutations: {
         tokenSetter (state) {
@@ -53,13 +63,27 @@ export default new Vuex.Store({
         },
         lessonCloseOpen (state, data) {
             state.lessonModalOpened = data
+        },
+        modelInfoSetter (state, data) {
+            state.modelInfo = data
+        },
+        englishFileSetter (state, data) {
+            state.englishFile = data
+        },
+        adminTokenSetter (state, data) {
+            state.adminToken = data
+        },
+        autoLogout (state) {
+            state.adminToken = null
+            router.push({name: 'administer'})
         }
     },
     actions: {
         reloginTimer({commit, dispatch}, expirationTime) {
             setInterval(() => {
+                this.state.userData = null
                 dispatch('relogin')
-            }, expirationTime - 10000)
+            }, 3600000 - 10000)
         },
         tokenSetter({commit}, payload) {
             if (payload.token) {
@@ -94,6 +118,21 @@ export default new Vuex.Store({
         },
         lessonCloseOpenDispatcher ({commit}, payload) {
             commit('lessonCloseOpen', payload)
+        },
+        modelInfoDispatcher ({commit}, payload) {
+            commit('modelInfoSetter', payload)
+        },
+        englishFileDispatcher ({commit}, payload) {
+            commit('englishFileSetter', payload)
+        },
+        adminTokenDispatcher ({commit, dispatch}, payload) {
+            commit('adminTokenSetter', payload)
+            dispatch('autoLogoutAdmin')
+        },
+        autoLogoutAdmin ({commit}) {
+            setTimeout(() => {
+                commit('autoLogout')
+            }, 3600000 - 10000)
         }
     },
     getters: {
@@ -117,6 +156,9 @@ export default new Vuex.Store({
         loadingProfile (state) {
             return state.loadingProfile
         },
+        loadingEnglishFile (state) {
+            return state.loadingEnglishFile
+        },
         fullName (state) {
             if (state.userDetail.first_name && state.userDetail.last_name) {
                 return state.userDetail.first_name + " " + state.userDetail.last_name
@@ -133,6 +175,18 @@ export default new Vuex.Store({
         },
         lessonModalOpened (state) {
             return state.lessonModalOpened
+        },
+        getUserId (state) {
+            return state.userData.user_id
+        },
+        colorsetReturner (state) {
+            return state.colorsets
+        },
+        modelInfoGetter (state) {
+            return state.modelInfo
+        },
+        isAdminUser (state) {
+            return state.adminToken
         }
     },
     

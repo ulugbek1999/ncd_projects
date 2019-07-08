@@ -10,7 +10,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Units <span class="sr-only">(current)</span></a>
+                    <router-link tag="a" :to="{name: 'courses-admin'}" active-class="active_nav" class="nav-link" href="">Courses <span class="sr-only">(current)</span></router-link>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Account usage</a>
@@ -31,7 +31,7 @@
                 </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search courses" aria-label="Search">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>
@@ -85,8 +85,9 @@ export default {
         margin-right: 5px;
     }
 
-    .navbar-toggler-icon {
-    
+    .active_nav {
+        color: rgb(245, 245, 245);
+        pointer-events: none;
     }
 
     .dropdown-item {

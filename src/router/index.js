@@ -4,7 +4,6 @@ import VueCookies from 'vue-cookies'
 import ErrorPage from '@/components/ErrorPage'
 import Unit1_vocabulary from '@/components/unit1/Vocabulary.vue'
 import store from '../store'
-import AuthHandler from '../Authorization/AuthHandler'
 
 
 Vue.use(VueCookies)
@@ -15,9 +14,15 @@ const Administer = resolve => {
   })
 }
 
-const UnitsHandler = resolve => {
-  require.ensure(['@/components/Administration/UnitsHandler'], () => {
-    resolve(require('@/components/Administration/UnitsHandler'))
+const Admin = resolve => {
+  require.ensure(['@/components/Administration/Admin'], () => {
+    resolve(require('@/components/Administration/Admin'))
+  })
+}
+
+const CoursesAdmin = resolve => {
+  require.ensure(['@/components/Administration/AdminPages/CoursesAdmin'], () => {
+    resolve(require('@/components/Administration/AdminPages/CoursesAdmin'))
   })
 }
 
@@ -123,11 +128,54 @@ const Settings = resolve => {
     resolve(require('@/components/main/settings/Settings'))
   })
 }
+
+const Messages = resolve => {
+  require.ensure(['@/components/main/messages/Messages'], () => {
+    resolve(require('@/components/main/messages/Messages'))
+  })
+}
+
+const Tasks = resolve => {
+  require.ensure(['@/components/main/tasks/Tasks'], () => {
+    resolve(require('@/components/main/tasks/Tasks'))
+  })
+}
+
+const Friends = resolve => {
+  require.ensure(['@/components/main/friends/Friends'], () => {
+    resolve(require('@/components/main/friends/Friends'))
+  })
+}
+
+const Notifications = resolve => {
+  require.ensure(['@/components/main/notifications/Notifications'], () => {
+    resolve(require('@/components/main/notifications/Notifications'))
+  })
+}
 const Courses = resolve => {
   require.ensure(['@/components/main/Courses'], () => {
     resolve(require('@/components/main/Courses'))
   })
 }
+
+const EnglishFile = resolve => {
+  require.ensure(['@/components/main/EnglishFile'], () => {
+    resolve(require('@/components/main/EnglishFile'))
+  })
+}
+
+const ListenAndRepeatModel = resolve => {
+  require.ensure(['@/components/main/models/ListenAndRepeatModel'], () => {
+    resolve(require('@/components/main/models/ListenAndRepeatModel'))
+  })
+}
+
+const Model = resolve => {
+  require.ensure(['@/components/main/models/Model'], () => {
+    resolve(require('@/components/main/models/Model'))
+  })
+}
+
 const AllCourses = resolve => {
   require.ensure(['@/components/main/courses-sub/AllCourses'], () => {
     resolve(require('@/components/main/courses-sub/AllCourses'))
@@ -136,6 +184,12 @@ const AllCourses = resolve => {
 const LearningRoute = resolve => {
   require.ensure(['@/components/main/courses-sub/LearningRoute'], () => {
     resolve(require('@/components/main/courses-sub/LearningRoute'))
+  })
+}
+
+const Course = resolve => {
+  require.ensure(['@/components/main/courses-sub/Course'], () => {
+    resolve(require('@/components/main/courses-sub/Course'))
   })
 }
 
@@ -250,13 +304,21 @@ export default new Router({
     {
       path: '/administer',
       name: 'administer',
-      component: Administer
+      component: Administer,
+      beforeEnter: (to, from, next)=> {
+        if (!store.getters.isAdminUser) {
+          next()
+        }
+        else {
+          next({name: 'courses-admin'})
+        }
+      }
     },
     {
-      path: '/profile',
+      path: '/profile/:userId',
       name: 'profile',
       component: Profile,
-      redirect: {name: "dashboard"},
+      redirect: {name: "dashboard", params: {userId: store.state.userData.user_id}},
       beforeEnter (to, from, next) {
         if (VueCookies.get('userData')) {
           if (VueCookies.get('userData')["token"]) {
@@ -280,6 +342,26 @@ export default new Router({
           path: 'settings',
           name: 'settings',
           component: Settings
+        },
+        {
+          path: 'notifications',
+          name: 'notifications',
+          component: Notifications
+        },
+        {
+          path: 'messages',
+          name: 'messages',
+          component: Messages
+        },
+        {
+          path: 'tasks',
+          name: 'tasks',
+          component: Tasks
+        },
+        {
+          path: 'friends',
+          name: 'friends',
+          component: Friends
         }
       ]
     },
@@ -299,17 +381,47 @@ export default new Router({
           name: 'learning-route',
           component: LearningRoute
         }
-    ]
+      ]
+    },
+    {
+      path: '/english-file',
+      name: '/english-file',
+      component: EnglishFile,
+      children: [
+        {
+          path: '/course/:id',
+          name: 'course',
+          component: Course
+        },
+        {
+          path: '/model',
+          name: 'learning-models',
+          component: Model,
+          children: [
+            {
+              path: 'listen-and-repeat/:id',
+              name: 'listen-and-repeat-model',
+              component: ListenAndRepeatModel
+            }
+          ]
+        },
+      ]
     },
     {
       path: '/admin-page',
       name: 'admin-page',
-      component: UnitsHandler,
+      component: Admin,
+      redirect: {name: 'courses-admin'},
+      children: [
+        {
+          path: 'courses',
+          name: 'courses-admin',
+          component: CoursesAdmin
+        }
+      ],
       beforeEnter: (to, from, next)=> {
-        if(VueCookies.isKey('userData')) {
-          if (VueCookies.get('userData')["token"])
-            
-            next()
+        if (store.getters.isAdminUser) {
+          next()
         }
         else {
           next({name: 'administer'})

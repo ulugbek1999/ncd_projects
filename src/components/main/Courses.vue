@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <ncd-loader v-if="loading"></ncd-loader>
+    <div v-else>
         <ncd-header></ncd-header>
         <div class="small-nav">
             <ul>
@@ -20,9 +21,11 @@
 
 <script>
 import Header from './Header'
+import Loader from '../Loader'
 export default {
     components: {
         'ncd-header': Header,
+        'ncd-loader': Loader
     },
     data () {
         return {
@@ -31,6 +34,11 @@ export default {
     },
     created () {
         document.title = this.title
+    },
+    computed: {
+        loading () {
+            return this.$store.getters.beingLoaded
+        }
     }
 }
 </script>

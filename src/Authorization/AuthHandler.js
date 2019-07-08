@@ -38,7 +38,7 @@ export default class AuthHandler {
             .then(() => {
                 store.dispatch('requestProcessedSetter', false)
                 eventBus.$emit('requestHandler', store.getters.requestProcessed)
-                router.push({name: 'dashboard'})
+                router.push({name: 'dashboard', params: {userId: store.state.userData.user_id}})
             })
     }
 
@@ -48,6 +48,7 @@ export default class AuthHandler {
                 const token = VueCookies.get('userData').token
                 customAxios.post('token/refresh/', {'token' : token})
                     .then(response => {
+                        
                         if (response.data.token && response.status === 200) {
                             const user_id = VueCookies.get('userData').user_id
                             const username = VueCookies.get('userData').username
@@ -88,6 +89,7 @@ export default class AuthHandler {
             const token = VueCookies.get('userData').token
             customAxios.get('users/' + user_id, {headers: {Authorization: 'JWT ' + token}})
                 .then(response => {
+                    console.log(response.data)
                     if (response.data && response.status === 200) {
                         store.dispatch('userInformationDispatcher', response.data)
                     }
@@ -110,4 +112,21 @@ export default class AuthHandler {
         }
     };
 
+    loginAsAdmin () {
+        store.dispatch('requestProcessedSetter', true)
+        customAxios.post('authenticate-admin/', {"username" : this.username,  "password" : this.password})
+            .then ((response) => {
+                if (response.status === 200 && response.data.token) {
+                    store.dispatch('adminTokenDispatcher', response.data.token)
+                    router.push({name: 'admin-page'})
+                }
+            })
+            .catch ((error) => {
+                eventBus.$emit('errorOccured', error.response.data.detail)
+                throw new Error(error)
+            })
+            .finally (() => {
+                store.dispatch('requestProcessedSetter', false)
+            })
+    }
 }

@@ -7,13 +7,15 @@ import jQuery from 'jquery'
 import VueRouterPermissions from 'vue-router-permissions'
 import store from './store'
 
-
+import AudioVisual from 'vue-audio-visual'
 
 global.$ = jQuery
 
 let Bootstrap = require('bootstrap')
 import 'bootstrap/dist/css/bootstrap.css'
 
+
+Vue.use(AudioVisual)
 
 Vue.use(require('vue-cookies'))
 

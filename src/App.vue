@@ -28,7 +28,7 @@ export default {
 </script>
 
 <style lang="scss">
-
+@import url('https://fonts.googleapis.com/css?family=Patua+One&display=swap');
 // @import "../node_modules/vue2-animate/src/sass/vue2-animate.scss";
 .fade-custom-enter {
   opacity: 0
@@ -148,5 +148,8 @@ input[type=range]:focus::-ms-fill-upper {
   background: rgba(59, 84, 243, 0.78);
 }
 
+html, body {
+  height: 100%;
+}
 
 </style>

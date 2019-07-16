@@ -26,7 +26,13 @@ export default new Vuex.Store({
                 owner: null
             }
         },
-        adminToken: null,
+        admin: {
+            adminToken: null,
+            courseUnits: null,
+            courseDetails: null,
+            mode: null,
+            editData: null
+        },
         lessonModalOpened: false,
         requestProcessed: false,
         loading: true,
@@ -39,6 +45,7 @@ export default new Vuex.Store({
             name: 'Model',
             color: "rgb(73, 223, 19)"
         },
+        courses: null,
         baseStaticUrl: 'https://ncd-interlingvo.herokuapp.com/static/'
     },
     mutations: {
@@ -71,11 +78,26 @@ export default new Vuex.Store({
             state.englishFile = data
         },
         adminTokenSetter (state, data) {
-            state.adminToken = data
+            state.admin.adminToken = data
         },
         autoLogout (state) {
             state.adminToken = null
             router.push({name: 'administer'})
+        },
+        coursesSetter (state, data) {
+            state.courses = data
+        },
+        courseUnitsSetter (state, data) {
+            state.admin.courseUnits = data
+        },
+        courseDetailsSetter (state, data) {
+            state.admin.courseDetails = data
+        },
+        editDataSetter (state, data) {
+            state.admin.editData = data
+        },
+        mode (state, data) {
+            state.admin.mode = data
         }
     },
     actions: {
@@ -133,6 +155,12 @@ export default new Vuex.Store({
             setTimeout(() => {
                 commit('autoLogout')
             }, 3600000 - 10000)
+        },
+        coursesDispatcher ({commit}, payload) {
+            commit('coursesSetter', payload)
+        },
+        courseUnitsDispatcher ({commit}, payload) {
+            commit('courseUnitsSetter', payload)
         }
     },
     getters: {
@@ -186,7 +214,22 @@ export default new Vuex.Store({
             return state.modelInfo
         },
         isAdminUser (state) {
-            return state.adminToken
+            return state.admin.adminToken
+        },
+        courses (state) {
+            return state.courses
+        },
+        courseUnits (state) {
+            return state.admin.courseUnits
+        },
+        courseDetails (state) {
+            return state.admin.courseDetails
+        },
+        editDataGetter (state) {
+            return state.admin.editData
+        },
+        modeGetter (state) {
+            return state.admin.mode
         }
     },
     

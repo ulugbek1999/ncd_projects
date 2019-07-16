@@ -8,6 +8,9 @@ import store from '../store'
 
 Vue.use(VueCookies)
 // Lazily load routes
+
+
+//Admin components
 const Administer = resolve => {
   require.ensure(['@/components/Administer'], () => {
     resolve(require('@/components/Administer'))
@@ -25,6 +28,32 @@ const CoursesAdmin = resolve => {
     resolve(require('@/components/Administration/AdminPages/CoursesAdmin'))
   })
 }
+
+const EnglishCourseAdmin = resolve => {
+  require.ensure(['@/components/Administration/AdminPages/EnglishCourses/EnglishCourseAdmin'], () => {
+    resolve(require('@/components/Administration/AdminPages/EnglishCourses/EnglishCourseAdmin'))
+  })
+}
+
+const ManageEnglishCourse = resolve => {
+  require.ensure(['@/components/Administration/AdminPages/EnglishCourses/ManageEnglishCourse'], () => {
+    resolve(require('@/components/Administration/AdminPages/EnglishCourses/ManageEnglishCourse'))
+  })
+}
+
+const List = resolve => {
+  require.ensure(['@/components/Administration/AdminPages/EnglishCourses/List'], () => {
+    resolve(require('@/components/Administration/AdminPages/EnglishCourses/List'))
+  })
+}
+
+const AddAndEdit = resolve => {
+  require.ensure(['@/components/Administration/AdminPages/EnglishCourses/AddAndEdit'], () => {
+    resolve(require('@/components/Administration/AdminPages/EnglishCourses/AddAndEdit'))
+  })
+}
+
+// End of admin components
 
 const MainPage = resolve => {
   require.ensure(['@/components/MainPage'], () => {
@@ -192,6 +221,26 @@ const Course = resolve => {
     resolve(require('@/components/main/courses-sub/Course'))
   })
 }
+
+const DragAndDrop = resolve => {
+  require.ensure(['@/components/main/models/DragAndDropModel'], () => {
+    resolve(require('@/components/main/models/DragAndDropModel'))
+  })
+}
+
+const ListenAndRead = resolve => {
+  require.ensure(['@/components/main/models/ListenAndRead'], () => {
+    resolve(require('@/components/main/models/ListenAndRead'))
+  })
+}
+
+// Typing test
+const Typing = resolve => {
+  require.ensure(['@/components/main/typing/Typing'], () => {
+    resolve(require('@/components/main/typing/Typing'))
+  })
+}
+
 
 import FlipClock from '@/components/FlipClock'
 
@@ -385,7 +434,7 @@ export default new Router({
     },
     {
       path: '/english-file',
-      name: '/english-file',
+      name: 'english-file',
       component: EnglishFile,
       children: [
         {
@@ -405,6 +454,18 @@ export default new Router({
             }
           ]
         },
+        {
+          path: '/drag-and-drop',
+          name: 'drag-and-drop',
+          component: DragAndDrop,
+          children: [
+            {
+              path: '/model/listen-and-read/:id',
+              name: 'listen-and-read',
+              component: ListenAndRead
+            }
+          ]
+        },
       ]
     },
     {
@@ -417,6 +478,26 @@ export default new Router({
           path: 'courses',
           name: 'courses-admin',
           component: CoursesAdmin
+        },
+        {
+          path: 'english-course/:course',
+          name: 'english-course-admin',
+          component: EnglishCourseAdmin
+        },
+        {
+          path: 'english-course/:course/:unit',
+          name: 'english-course-manage',
+          component: ManageEnglishCourse
+        },
+        {
+          path: 'english-course/:course/:unit/add-edit/:part/:type',
+          name: 'english-course-add',
+          component: AddAndEdit
+        },
+        {
+          path: 'english-course/:course/:unit/list/:part/:type',
+          name: 'english-course-list',
+          component: List
         }
       ],
       beforeEnter: (to, from, next)=> {
@@ -427,6 +508,14 @@ export default new Router({
           next({name: 'administer'})
         }
       }
+    },
+    {
+      path: '/typing',
+      name: 'typing',
+      component: Typing,
+      children: [
+
+      ]
     }
   ],
   mode: 'history'

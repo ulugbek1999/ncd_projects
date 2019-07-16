@@ -92,7 +92,7 @@ export default {
     }
 
     #main-content {
-        height: 100%;
+        height: 4000px;
     }
 
     header {

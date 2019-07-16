@@ -41,12 +41,12 @@
                             </div>
                             <div class="each-part-element story">
                                 <img src="@/assets/main/course-tale.png" alt="" class="course-parts-icon">
-                                <h4 class="course-parts-header">Read and listen</h4>
+                                <h4 class="course-parts-header">Story</h4>
                             </div>
-                            <div class="each-part-element exercise">
+                            <router-link tag="div" :to="{name: 'listen-and-read'}" class="each-part-element exercise">
                                 <img src="@/assets/main/course-exercise.jpg" alt="" class="course-parts-icon">
-                                <h4 class="course-parts-header">Exercise</h4>
-                            </div>
+                                <h4 class="course-parts-header">Listen and read</h4>
+                            </router-link>
                         </div>
                     </section>
                     <section class="reading">
@@ -132,7 +132,7 @@ export default {
     },
     methods: {
         navigator() {
-            this.$router.push({name: 'listen-and-repeat-model', params: {id: this.$store.state.englishFile[1-1].unit_number}})
+            this.$router.push({name: 'listen-and-repeat-model', params: {id: this.$store.state.englishFile[1-1].unit}})
         }
     }
 }

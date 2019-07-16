@@ -12,6 +12,7 @@ export default {
         customAxios.get('/units')
             .then(response => {
                 if (response.status === 200) {
+                    console.log(response.data)
                     this.$store.dispatch('englishFileDispatcher', response.data)
                 }
             })

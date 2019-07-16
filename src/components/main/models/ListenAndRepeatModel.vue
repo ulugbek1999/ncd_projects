@@ -27,9 +27,9 @@
             <img :src="require('@/assets/main/Model/congratulate.png')" alt="" class="congratulate-image">
             <h3 style="margin-top: 20px; font-weight: bold; letter-spacing: 1px; color: #0c0">Congratulations!</h3>
             <p style="color: #555; font-size: 16px; margin-top: 30px">You have successfully <br> answered all questions! Keep going...</p>
-            <button @click="goBack" style="margin-top: 80px" class="return-back">Continue</button>
+            <button @click="$router.go(-1)" style="margin-top: 80px" class="return-back">Continue</button>
         </div>
-        <audio id="lar-audio" preload="metadata" v-if="!completed">
+        <audio id="lar-audio" preload="auto" @ended="audioPlayed = !audioPlayed" v-if="!completed">
             <source :src="statusActiveQuestions[currentIndex].audio_link"/>
         </audio>
         
@@ -70,7 +70,6 @@ export default {
                 audio.load()
                 audio.play()
                 this.audioPlayed = true
-                this.playerOff((duration + 1) * 1000)
             }
             else if (this.audioPlayed) {
                 audio.pause()

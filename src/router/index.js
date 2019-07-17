@@ -241,6 +241,12 @@ const Typing = resolve => {
   })
 }
 
+const NewKeys = resolve => {
+  require.ensure(['@/components/main/typing/NewKeys'], () => {
+    resolve(require('@/components/main/typing/NewKeys'))
+  })
+}
+
 
 import FlipClock from '@/components/FlipClock'
 
@@ -514,7 +520,11 @@ export default new Router({
       name: 'typing',
       component: Typing,
       children: [
-
+        {
+          path: 'new-keys',
+          name: 'new-keys',
+          component: NewKeys
+        }
       ]
     }
   ],

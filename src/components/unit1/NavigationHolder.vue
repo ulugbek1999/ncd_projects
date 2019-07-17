@@ -304,11 +304,11 @@ footer {
 }
 
 .icon-nav div {
-  width: 35px;
-  height: 5px;
-  background-color: #fff;
-  margin: 6px 0;
-  display: none;
+    width: 35px;
+    height: 5px;
+    background-color: #fff;
+    margin: 6px 0;
+    display: none;
 }
 
 .layer3 {

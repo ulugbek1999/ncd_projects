@@ -247,6 +247,24 @@ const NewKeys = resolve => {
   })
 }
 
+const WordDrill = resolve => {
+  require.ensure(['@/components/main/typing/WordDrill'], () => {
+    resolve(require('@/components/main/typing/WordDrill'))
+  })
+}
+
+const SentenceDrill = resolve => {
+  require.ensure(['@/components/main/typing/SentenceDrill'], () => {
+    resolve(require('@/components/main/typing/SentenceDrill'))
+  })
+}
+
+const ParagraphDrill = resolve => {
+  require.ensure(['@/components/main/typing/ParagraphDrill'], () => {
+    resolve(require('@/components/main/typing/ParagraphDrill'))
+  })
+}
+
 
 import FlipClock from '@/components/FlipClock'
 
@@ -524,6 +542,21 @@ export default new Router({
           path: 'new-keys',
           name: 'new-keys',
           component: NewKeys
+        },
+        {
+          path: 'word-drill',
+          name: 'word-drill',
+          component: WordDrill
+        },
+        {
+          path: 'sentence-drill',
+          name: 'sentence-drill',
+          component: SentenceDrill
+        },
+        {
+          path: 'paragraph-drill',
+          name: 'paragraph-drill',
+          component: ParagraphDrill
         }
       ]
     }

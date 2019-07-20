@@ -18,18 +18,57 @@
                 </div>
             </header>
             <main>
-                <router-view></router-view>
+                <div class="row">
+                    <div class="col">
+                        <router-view></router-view>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="indicators" v-if="exerciseActivated">
+                            <div class="timer-container">
+                                <div style="display: flex; justify-content: center; flex-direction: row">
+                                    <span class="indicator-text">TIME LEFT</span>
+                                </div>
+                                
+                                <div class="timer">{{ timer }}</div>
+                            </div>
+                            <div class="speed-indicator">
+                                <div style="display: flex; justify-content: center; flex-direction: row">
+                                    <span class="indicator-text">TYPING SPEED</span>
+                                </div>
+                                <div class="speed-container">
+                                    <div class="speed">
+                                        {{ speed }}<br>
+                                        <span class="secondary">WPM</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="error-indicator">
+                                <div>
+                                    <div style="display: flex; justify-content: center;">
+                                        <span class="indicator-text">ACCURACY</span>
+                                    </div>
+                                    <div class="error-container">
+                                        <div class="error">
+                                            {{ accuracy }}<br>
+                                            <span class="secondary">%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </main>
             <footer>
                 <div class="layer3"></div>
                 <div class="navigators">
                     <div class="navigator home_navigator" :style="{backgroundImage: 'url(' + require('@/assets/main/Typing/navigation_button_small_bottom.png') + ')'}">Home</div>
-                    <div class="navigator back_navigator" :style="{backgroundImage: 'url(' + require('@/assets/main/Typing/navigation_button_small_bottom.png') + ')'}">Back</div>
+                    <div class="navigator back_navigator" :style="{backgroundImage: 'url(' + require('@/assets/main/Typing/navigation_button_small_bottom.png') + ')'}" @click="back">Back</div>
                     <div class="page_counter">1/5</div>
                     <div class="navigator next_navigator" :style="{backgroundImage: 'url(' + require('@/assets/main/Typing/navigation_button_small_bottom.png') + ')'}" @click="next">Next</div>
                 </div>
             </footer>
-        </div> 
+        </div>
     </div>
 </template>
 
@@ -41,6 +80,14 @@ export default {
         $('html').css('height', '2000px')
         $('html').css('overflow-y', 'hidden')
         $("html, body").animate({ scrollTop: 0 }, "fast");
+        eventBus.$on('activate', data => {
+            this.type = data
+            $('.indicators').css('display', 'block')
+            this.exerciseActivated = true
+        })
+        eventBus.$on('error', () => {
+            this.errors++
+        })
     },
     destroyed () {
         $('html').css('height', '100%')
@@ -48,40 +95,102 @@ export default {
     },
     methods: {
         keyListener (event) {
-            if (event.key === "OS" || event.key === "ArrowRight" || event.key === "ArrowLeft" || event.key === "Control")
+            if (this.exerciseActivated) {
+                this.characters++
+                if (event.key == " ") {
+                    this.spaces++
+                }
+            }
+            if (event.key === "OS" || event.key === "ArrowRight" || event.key === "ArrowLeft" || event.key === "Control" || event.key === "Shift")
                 return
             eventBus.$emit('keyEvent', event.key)
-            // console.log("working")
-            // if (event.key == this.splitedText[0]) {
-            //     this.splitedText.shift()
-            // }
-            // else if ((this.splitedText[0] == '\r' && this.splitedText[1] == '\n') && event.key == "Enter") {
-            //     this.splitedText.shift()
-            //     this.splitedText.shift()
-            // }
-            // else if ((this.splitedText[0] == '\n' || this.splitedText[0] == '\r') && event.key == "Enter") {
-            //     this.splitedText.shift()
-            // }
+        },
+        playAudio (event) {
+            event.target.play()
         },
         next () {
             eventBus.$emit('next')
+        },
+        launchTimer () {
+            var interval = setInterval(() => {
+                if (this.seconds == 0) {
+                    if (this.minutes == 0) {
+                        clearInterval(interval)
+                    }
+                    else {
+                        this.minutes--
+                        this.seconds = 59
+                    }
+                } 
+                else
+                    this.seconds--
+            }, 1000)
+        },
+        speedChanger () {
+            var interval = setInterval(() => {
+                this.secondsPassed += 1
+                this.speed = Math.floor(this.spaces * 60 / this.secondsPassed)
+            }, 1000);
+        },
+        back () {
+            eventBus.$emit('back')
+        },
+        accuracyChanger () {
+            var interval = setInterval(() => {
+                if (this.characters == 0 || this.spaces == 0)
+                    this.accuracy = 0
+                else
+                    if (this.type === "charType") {
+                        this.accuracy = Math.floor((this.characters - this.errors) / this.characters * 100)
+                    }
+                    else {
+                        this.accuracy = Math.floor((this.spaces - this.errors) / this.spaces * 100)
+                    }
+            }, 1000)
         }
     },
     data() {
         return {
-            splitedText: null
+            splitedText: null,
+            minutes: 5,
+            spaces: 0,
+            seconds: 0,
+            secondsPassed: 0,
+            speed: 0,
+            exerciseActivated: false,
+            errors: 0,
+            characters: 0,
+            accuracy: 0,
+            type: null
         }
     },
     mounted () {
-        var string = `-The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.
-Need more than one paragraph? You can specify how many paragraphs you need by changing the first number in the Rand statement. For example, if you needed two paragraphs (with five sentences in each one), you could type this`
-        this.splitedText = string.replace(/ +/g, ' ').split('')
+        this.$nextTick(() => {
+
+        })
     },
     watch: {
-        splitedText () {
-            if (this.splitedText.length == 0) {
-                alert("finished")
+        exerciseActivated () {
+            if (this.exerciseActivated == true) {
+                this.launchTimer()
+                this.speedChanger()
+                this.accuracyChanger()
             }
+            else {
+                var interval_id = window.setInterval("", 9999);
+                for (var i = 1; i < interval_id; i++)
+                    window.clearInterval(i);
+            }
+        }
+    },
+    computed: {
+        timer () {
+            var timer = "";
+            if (this.seconds < 10)
+                timer = this.minutes + ":" + '0' + this.seconds
+            else
+                timer = this.minutes + ":" + this.seconds
+            return timer
         }
     }
 }
@@ -90,10 +199,57 @@ Need more than one paragraph? You can specify how many paragraphs you need by ch
 <style lang="scss" scoped>
     @import url('https://fonts.googleapis.com/css?family=Courgette&display=swap');
 
-    .main-content {
-        background: {
-            image: linear-gradient(right, #e1fde5, #d9e7ff)
+    .indicators {
+        position: absolute;
+        right: 45px;
+        top: 50px;
+    }
+
+    .indicator-text {
+        font-size: 13px;
+        color: #4747a3;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: bold;
+    }
+
+    .secondary {
+        color: #000;
+        position: relative;
+        top: -10px;
+        font: {
+            family: Verdana, sans-serif;
+            size: 14px;
         }
+    }
+
+    .timer {
+        padding: 5px 10px 5px;
+        font: {
+            family: Verdana, sans-serif;
+            size: 24px;
+        }
+        margin-top: 10px;
+        color: #4747a3;
+        box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.36);
+        border-radius: 5px;
+        border: 1px solid gray;
+        background-color: white;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .speed-container {
+        @extend .timer;
+    }
+
+    .error-container {
+        @extend .timer
+    }
+
+    .main-content {
+        background-image: linear-gradient(right, #e1fde5, #d9e7ff);
+        background-image: -moz-linear-gradient(right, #e1fde5, #d9e7ff);
+        background-image: -webkit-linear-gradient(right, #e1fde5, #d9e7ff);
         height: 100%;
     }
 

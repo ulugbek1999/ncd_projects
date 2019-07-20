@@ -268,7 +268,11 @@ export default {
         })
     },
     destroyed () {
-
+        $('.trail').css('stroke-dashoffset', '628px')
+        this.audioPlayed = false
+        var interval_id = window.setInterval("", 9999);
+        for (var i = 1; i < interval_id; i++)
+                window.clearInterval(i);
     },
     watch: {
         stage: function () {

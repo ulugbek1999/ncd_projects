@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            <div class="keys" v-else style="width: 800px;">
+            <div class="keys" v-else style="width: 750px;">
                 <div class="row">
                     <div class="col">
                         <div class="key current-key" :id="'wordkey-' + (exIndex + 0)">
@@ -166,7 +166,7 @@ export default {
             ],
             exIndex: 0,
             contentIndex: 0,
-            metaIndex: -1,
+            metaIndex: 0,
             break: false,
             spaceIndex: 0,
             counter: 0,
@@ -254,6 +254,9 @@ export default {
                 }
             }
         },
+        back () {
+            location.reload()
+        },
         currentExDataSetter (array) {
             for (let index = 0; index < this.interval; index++) {
                 array[index] = this.exData[this.counter]
@@ -263,26 +266,27 @@ export default {
     },
     created () {
         eventBus.$on('keyEvent', data => {
-            var tempor = this.metaIndex
-            if (this.stage == 'tutorial')
+            if (this.stage == 'tutorial') {
                 if (data == ' ')
                     this.next()  
-            if (this.stage == 'exercise') {
+            }
+            else {
                 if (this.api[this.currentAPI].content.length == this.metaIndex) {
                     if (this.currentAPI < this.api.length - 1)
                         this.currentAPI++
                     else
                         this.currentAPI = 0
                     this.interval = this.api[this.currentAPI].interval
-                    console.log(this.interval)
                     this.metaIndex = 0
                     this.exIndex = 0
                 }
                 if (!this.break) {
                     if (this.exData[this.metaIndex] == data) {
+                        
                         $('#wordkey-' + this.metaIndex).addClass('correct')
                     }
                     else {
+                        eventBus.$emit('error')
                         $('#wordkey-' + this.metaIndex).addClass('incorrect')
                     }
                     this.metaIndex++
@@ -309,6 +313,7 @@ export default {
                         $('#space-' + this.spaceIndex).addClass('correct')
                     }
                     else {
+                        eventBus.$emit('error')
                         $('#space-' + this.spaceIndex).addClass('incorrect')
                     }
                     this.spaceIndex++
@@ -322,6 +327,7 @@ export default {
                                 $(element).removeClass('correct')
                                 $(element).removeClass('incorrect')
                             })
+                            $($('.key')[0]).addClass('current-key')
                         }
                     }
                     if (this.interval == 4) {
@@ -333,7 +339,9 @@ export default {
                                 $(element).removeClass('correct')
                                 $(element).removeClass('incorrect')
                             })
+                            $($('.key')[0]).addClass('current-key')    
                         }
+                        
                     }
                     this.break = false
                 }
@@ -341,6 +349,9 @@ export default {
         })
         eventBus.$on('next', () => {
             this.next()
+        })
+        eventBus.$on('back', () => {
+            this.back()
         })
     },
     computed: {
@@ -383,19 +394,34 @@ export default {
             data.third = third
             data.fourth = fourth
             return data
-            // Not the best code I know
+            // Not the best code I know.
         },
-        exData () {
-            var string = this.api[this.currentAPI].content
-            return string.split('')
+        exData: {
+            get () {
+                var string = this.api[this.currentAPI].content
+                return string.split('')
+            },
+            set () {
+                
+            }
         }
     },
     watch: { 
- 
+        stage () {
+            if (this.stage === 'exercise') {
+                this.exIndex = 0
+                this.metaIndex = 0
+                this.spaceIndex = 0
+                this.currentAPI = 0
+                this.contentIndex = 0
+                this.break = false
+                eventBus.$emit('activate', 'charType')
+            }
+        }
     },
     mounted() {
         this.$nextTick(() => {
-
+            
         })
     }
 }

@@ -265,6 +265,12 @@ const ParagraphDrill = resolve => {
   })
 }
 
+const TextDrill = resolve => {
+  require.ensure(['@/components/main/typing/TextDrill'], () => {
+    resolve(require('@/components/main/typing/TextDrill'))
+  })
+}
+
 
 import FlipClock from '@/components/FlipClock'
 
@@ -557,6 +563,11 @@ export default new Router({
           path: 'paragraph-drill',
           name: 'paragraph-drill',
           component: ParagraphDrill
+        },
+        {
+          path: 'text-drill',
+          name: 'text-drill',
+          component: TextDrill
         }
       ]
     }

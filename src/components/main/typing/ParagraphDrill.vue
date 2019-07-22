@@ -116,6 +116,10 @@ export default {
         border-top: 1px solid black;
     }
 
+    textarea:focus {
+        outline: none !important;
+    }
+
     .word-active {
         color: rgb(5, 5, 255);
     }

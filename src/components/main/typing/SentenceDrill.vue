@@ -1,6 +1,7 @@
 <template>
     <div id="main-content">
         <div class="sentence" v-if="loaded">
+            <typing-starter v-bind="tsData" v-if="!started" @start="start"></typing-starter>
             <span class="word" :class="[{'word-active' : index === wordIndex}, 'word-' + index]" v-for="(word, index) in splitByWord" :key="'word-' + index"><span v-for="(ch, i) in word.split('') + 1" :key="'ch-' + i" :class="['word-' + index + '-ch-' + i]" :data-symbol="ch"><span v-if="sentence[index][i] != ' '" :class="{'ch-active' : i == 0 && index == wordIndex}">{{ sentence[index][i] }}</span><span v-else :class="{'ch-active' : i == 0 && index == wordIndex}">&nbsp;</span></span></span><span class="enter" :class="{'ch-active' : enterBreak}">&#8629;</span>
         </div>
     </div>
@@ -8,6 +9,7 @@
 
 <script>
 import { eventBus } from '@/main'
+import TypingStarter from './Starter'
 export default {
     data () {
         return {
@@ -20,7 +22,13 @@ export default {
             chLength: 0,
             enterBreak: false,
             sentence: [],
-            loaded: false
+            loaded: false,
+            tsData: {
+                accuracyGoal: "intermediate",
+                objective: "Consolidation exercise to further develop muscle memory and strengthen technique.",
+                duration: "5 minutes"
+            },
+            started: false
         }
     },
     computed: {
@@ -65,39 +73,55 @@ export default {
             }
             this.wordIndex = 0
             this.sentenceSetter()
+        },
+        start () {
+            eventBus.$emit('activate', 'charType')
+            this.started = true
         }
     },
     created () {
         eventBus.$on('keyEvent', data => {
-            if (!this.enterBreak) {
-                 if (data === this.sentence[this.wordIndex][0]) {
-                    $('.ch-active').removeClass('error')
-                    this.sentence[this.wordIndex].shift()
-                    this.charIndex++
+            if (this.started) {
+                if (!this.enterBreak) {
+                    if (data === this.sentence[this.wordIndex][0]) {
+                        $('.ch-active').removeClass('error')
+                        this.sentence[this.wordIndex].shift()
+                        this.charIndex++
+                    }
+                    else {
+                        eventBus.$emit('error')
+                        $('.ch-active').addClass('error')
+                    }
                 }
                 else {
-                    eventBus.$emit('error')
-                    $('.ch-active').addClass('error')
+                    if (data === "Enter") {
+                        $('.ch-active').removeClass('error')
+                        this.changer()
+                        this.enterBreak = false
+                    }
+                    else {
+                        eventBus.$emit('error')
+                        $('.ch-active').addClass('error')
+                    }
                 }
-            }
-            else {
-                if (data === "Enter") {
-                    $('.ch-active').removeClass('error')
-                    this.changer()
-                    this.enterBreak = false
-                }
-                else {
-                    eventBus.$emit('error')
-                    $('.ch-active').addClass('error')
-                }
-            }
-               
+            }              
+        })
+        eventBus.$on('next', () => {
+            eventBus.$emit('disactivate')
+            this.$store.commit('typingResultsSetter', {
+                accuracy: '-',
+                goal: '-',
+                errors: '-',
+                speed: '-'
+            })
+            this.$store.commit('typingCurrentPageSetter')
+            this.$router.push({name: 'typing-result'})
         })
     },
     mounted() {
         this.$nextTick(() => {
             this.sentenceSetter()
-            eventBus.$emit('activate', 'charType')
+            this.$store.commit('typingPageSetter', 2)
         })
     },
     watch: {
@@ -110,6 +134,9 @@ export default {
                this.enterBreak = true
             }
         }
+    },
+    components: {
+        TypingStarter,
     }
 }
 </script>

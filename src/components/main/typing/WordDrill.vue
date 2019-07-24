@@ -1,5 +1,6 @@
 <template>
     <div id="main-content">
+        <typing-starter v-if="!started" @start="start" v-bind="tsData" style="position: absolute; top: 0; left: 50px;"></typing-starter>
         <div class="words row">
             <div class="word word-1 word-active col">
                 <span v-for="(ch, index) in word_1" :key="'word_1_key-' + index" :class="{'ch-active': index == 0}"><span v-if="ch != ' '">{{ ch }}</span><span v-else>&nbsp;</span></span>
@@ -16,6 +17,7 @@
 
 <script>
 import { eventBus } from '@/main'
+import TypingStarter from './Starter'
 export default {
     data () {
         return {
@@ -27,7 +29,13 @@ export default {
             word_2: null,
             word_3: null,
             word_which : 1,
-            mistype: false
+            mistype: false,
+            tsData: {
+                accuracyGoal: "intermediate",
+                objective: "Integrate new keys with keys already learned and add flow to your typing.",
+                duration: "5 minutes"
+            },
+            started: false
         }
     },
     computed: {
@@ -105,17 +113,34 @@ export default {
             if (this.word_3[this.word_3.length - 1] != " ") {
                 this.word_3.push(" ")
             }
+        },
+        start () {
+            eventBus.$emit('activate', 'charType')
+            this.started = true
         }
     },
     created () {
         eventBus.$on('keyEvent', data => {
-            this.keyListener(data)
+            if (this.started) {
+                this.keyListener(data)
+            }
+        })
+        eventBus.$on('next', () => {
+            eventBus.$emit('disactivate')
+            this.$store.commit('typingResultsSetter', {
+                accuracy: '-',
+                goal: '-',
+                errors: '-',
+                speed: '-'
+            })
+            this.$store.commit('typingCurrentPageSetter')
+            this.$router.push({name: 'typing-result'})
         })
     },
     mounted () {
         this.$nextTick(() => {
             this.wordsSetter()
-            eventBus.$emit('activate', 'charType')
+            this.$store.commit('typingPageSetter', 2)
         })
     },
     watch: {
@@ -142,6 +167,9 @@ export default {
                 this.wordsSetter()
             }
         }
+    },
+    components: {
+        TypingStarter,
     }
 }
 </script>

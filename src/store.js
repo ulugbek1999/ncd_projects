@@ -33,6 +33,13 @@ export default new Vuex.Store({
             mode: null,
             editData: null
         },
+        typingResult: {
+            errors: 2,
+            speed: 50,
+            accuracy: 80
+        },
+        typingPage: null,
+        typingCurrent: 1,
         lessonModalOpened: false,
         requestProcessed: false,
         loading: true,
@@ -55,6 +62,9 @@ export default new Vuex.Store({
             } catch (error) {
                 alert(error)
             }
+        },
+        typingResultsSetter (state, data) {
+            state.typingResult = data
         },
         requestProcessedSetter (state, data) {
             state.requestProcessed = data
@@ -98,6 +108,14 @@ export default new Vuex.Store({
         },
         mode (state, data) {
             state.admin.mode = data
+        },
+        typingPageSetter (state, data) {
+            state.typingPage = data
+        },
+        typingCurrentPageSetter (state) {
+            if (state.typingCurrent < state.typingPage) {
+                state.typingCurrent++
+            }
         }
     },
     actions: {

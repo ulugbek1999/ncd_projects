@@ -1,16 +1,18 @@
 <template>
     <div id="main-content">
+        <typing-starter v-bind="tsData" v-if="!started" @start="start"></typing-starter>
         <div class="paragraph">
             <span v-for="(word, index) in exData.paragraphs[this.currentIndex].split(' ')" :data-value="word" :key="'word-' + index" :class="['word-' + index, {'word-active' : metaIndex == index, 'disabled' : metaIndex > index}, 'word']"><span v-if="index < exData.paragraphs[currentIndex].split(' ').length - 1">{{ word }} </span><span v-else>{{ word }}&#8629; </span></span>
         </div>
         <div class="input-container">
-            <textarea id="input-model" v-model="userInput" placeholder="Click here to start!" @mousedown="preventClick" @click="focusOnInput" @keydown="keyListener" spellcheck="false"></textarea>
+            <textarea id="input-model" v-model="userInput" @mousedown="preventClick" @click="focusOnInput" @keydown="keyListener" spellcheck="false"></textarea>
         </div>
     </div>
 </template>
 
 <script>
 import {  eventBus } from "@/main"
+import TypingStarter from './Starter'
 export default {
     data () {
         return {
@@ -19,67 +21,78 @@ export default {
             },
             currentIndex: 0,
             metaIndex: 0,
-            userInput: ''
+            userInput: '',
+            tsData: {
+                accuracyGoal: "intermediate",
+                objective: "Reinforcement practise to develop smooth and accurate keystrokes and even rythm.",
+                duration: "5 minutes"
+            },
+            started: false
         }
     },
     methods: {
         keyListener (event) {
-            if (this.userInput.split('')[this.userInput.length - 1] === " " && event.keyCode === 8) {
-                event.preventDefault()
-            }
-            else {
-                if (event.keyCode === 37 || event.keyCode === 39) {
+            if (this.started) {
+                if (this.userInput.split('')[this.userInput.length - 1] === " " && event.keyCode === 8) {
                 event.preventDefault()
                 }
-                if (event.keyCode === 32 && this.metaIndex < this.exData.paragraphs[this.currentIndex].split(" ").length - 1) {
-                    if (this.userInput.split('')[this.userInput.length - 1] == " ") {
-                        event.preventDefault()
+                else {
+                    if (event.keyCode === 37 || event.keyCode === 39) {
+                    event.preventDefault()
                     }
-                    else {
+                    if (event.keyCode === 32 && this.metaIndex < this.exData.paragraphs[this.currentIndex].split(" ").length - 1) {
+                        if (this.userInput.split('')[this.userInput.length - 1] == " ") {
+                            event.preventDefault()
+                        }
+                        else {
+                            if ($('.word-' + this.metaIndex)[0].dataset.value == this.userInputReturner) {
+                            $('.word-' + this.metaIndex).css('color', 'rgb(29, 201, 29)')
+                            }
+                            else {
+                                $('.word-' + this.metaIndex).css('color', 'rgb(241, 8, 8)')
+                                eventBus.$emit('error')
+                            }
+                            this.metaIndex++
+                        }
+                    }
+                    else if (event.key === "Enter"  && this.metaIndex < this.exData.paragraphs[this.currentIndex].split(" ").length - 1) {
+                        $('.word-' + this.metaIndex).css('color', 'rgb(241, 8, 8)')
+                        eventBus.$emit('error')
+                        this.metaIndex++
+                    }
+                    else if ((this.metaIndex == (this.exData.paragraphs[this.currentIndex].split(' ').length - 1)) && (event.keyCode === 32 || event.key === "Enter")) {
                         if ($('.word-' + this.metaIndex)[0].dataset.value == this.userInputReturner) {
-                        $('.word-' + this.metaIndex).css('color', 'rgb(29, 201, 29)')
+                            $('.word-' + this.metaIndex).css('color', 'rgb(29, 201, 29)')
                         }
                         else {
                             $('.word-' + this.metaIndex).css('color', 'rgb(241, 8, 8)')
                             eventBus.$emit('error')
                         }
-                        this.metaIndex++
+                        document.querySelectorAll('.word').forEach(element => {
+                            $(element).css('color', 'unset')
+                        })
+                        this.metaIndex = 0
+                        if (this.currentIndex < this.exData.paragraphs.length - 1) {
+                            this.currentIndex++
+                        }
+                        else {
+                            this.currentIndex = 0
+                        }
+                        this.userInput = ""
                     }
                 }
-                else if (event.key === "Enter"  && this.metaIndex < this.exData.paragraphs[this.currentIndex].split(" ").length - 1) {
-                    $('.word-' + this.metaIndex).css('color', 'rgb(241, 8, 8)')
-                    eventBus.$emit('error')
-                    this.metaIndex++
-                }
-                else if ((this.metaIndex == (this.exData.paragraphs[this.currentIndex].split(' ').length - 1)) && (event.keyCode === 32 || event.key === "Enter")) {
-                    if ($('.word-' + this.metaIndex)[0].dataset.value == this.userInputReturner) {
-                        $('.word-' + this.metaIndex).css('color', 'rgb(29, 201, 29)')
-                    }
-                    else {
-                        $('.word-' + this.metaIndex).css('color', 'rgb(241, 8, 8)')
-                        eventBus.$emit('error')
-                    }
-                    document.querySelectorAll('.word').forEach(element => {
-                        $(element).css('color', 'unset')
-                    })
-                    this.metaIndex = 0
-                    if (this.currentIndex < this.exData.paragraphs.length - 1) {
-                        this.currentIndex++
-                    }
-                    else {
-                        this.currentIndex = 0
-                    }
-                    this.userInput = ""
-                }
-                
-            }
+            }     
+        },
+        start () {
+            eventBus.$emit('activate', 'wordType')
+            this.started = true
+            document.querySelector('#input-model').focus()
         },
         preventClick (event) {
             event.preventDefault()
         },
         focusOnInput (event) {
             event.target.focus()
-            $(event.target).removeAttr('placeholder')
         }
     },
     computed: {
@@ -90,7 +103,23 @@ export default {
     },
     mounted () {
         this.$nextTick(() => {
-            eventBus.$emit('activate', 'wordType')
+            this.$store.commit('typingPageSetter', 2)
+        })
+    },
+    components: {
+        TypingStarter
+    },
+    created () {
+        eventBus.$on('next', () => {
+            eventBus.$emit('disactivate')
+            this.$store.commit('typingResultsSetter', {
+                accuracy: '-',
+                goal: '-',
+                errors: '-',
+                speed: '-'
+            })
+            this.$store.commit('typingCurrentPageSetter')
+            this.$router.push({name: 'typing-result'})
         })
     }
 }

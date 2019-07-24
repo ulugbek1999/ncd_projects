@@ -271,6 +271,11 @@ const TextDrill = resolve => {
   })
 }
 
+const TypingResult = resolve => {
+  require.ensure(['@/components/main/typing/ResultPage'], () => {
+    resolve(require('@/components/main/typing/ResultPage'))
+  })
+}
 
 import FlipClock from '@/components/FlipClock'
 
@@ -568,6 +573,19 @@ export default new Router({
           path: 'text-drill',
           name: 'text-drill',
           component: TextDrill
+        },
+        {
+          path: 'result',
+          name: 'typing-result',
+          component: TypingResult,
+          beforeEnter: function (to, from, next) {
+            if (store.state.typingPage === null) {
+              next ({name: "MainPage"})
+            }
+            else {
+              next()
+            }
+          }
         }
       ]
     }

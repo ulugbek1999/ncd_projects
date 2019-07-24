@@ -62,9 +62,9 @@
             <footer>
                 <div class="layer3"></div>
                 <div class="navigators">
-                    <div class="navigator home_navigator" :style="{backgroundImage: 'url(' + require('@/assets/main/Typing/navigation_button_small_bottom.png') + ')'}">Home</div>
+                    <div class="navigator home_navigator" @click="$router.push({name: 'MainPage'})" :style="{backgroundImage: 'url(' + require('@/assets/main/Typing/navigation_button_small_bottom.png') + ')'}">Home</div>
                     <div class="navigator back_navigator" :style="{backgroundImage: 'url(' + require('@/assets/main/Typing/navigation_button_small_bottom.png') + ')'}" @click="back">Back</div>
-                    <div class="page_counter">1/5</div>
+                    <div class="page_counter">{{ typingCurrent }}/{{ typingPage }}</div>
                     <div class="navigator next_navigator" :style="{backgroundImage: 'url(' + require('@/assets/main/Typing/navigation_button_small_bottom.png') + ')'}" @click="next">Next</div>
                 </div>
             </footer>
@@ -74,6 +74,7 @@
 
 <script>
 import { eventBus } from '@/main'
+import { mapState } from 'vuex'
 export default {
     created () {
         document.body.addEventListener('keyup', this.keyListener)
@@ -87,6 +88,21 @@ export default {
         })
         eventBus.$on('error', () => {
             this.errors++
+        })
+        eventBus.$on('start', goal => {
+            this.accuracyRequired = goal
+        })
+        eventBus.$on('disactivate', () => {
+            this.exerciseActivated = false
+            var interval_id = window.setInterval("", 9999);
+            for (var i = 1; i < interval_id; i++)
+                window.clearInterval(i);
+
+            var id = window.setTimeout(function() {}, 0);
+            while (id--) {
+                window.clearTimeout(id); // will do nothing if no timeout with id is present
+            }
+            this.minutes = 1
         })
     },
     destroyed () {
@@ -112,6 +128,20 @@ export default {
             eventBus.$emit('next')
         },
         launchTimer () {
+            setTimeout(() => {
+                var obj = {
+                    errors: this.errors,
+                    speed: this.speed,
+                    accuracy: this.accuracy,
+                    goal: this.accuracyRequired
+                }
+                this.$store.commit('typingResultsSetter', obj)
+                this.exerciseActivated = false
+                this.$store.commit('typingCurrentPageSetter')
+                this.minutes = 1
+                this.seconds = 0
+                this.$router.push({name: 'typing-result'})
+            }, (this.minutes * 60 + this.seconds) * 1000)
             var interval = setInterval(() => {
                 if (this.seconds == 0) {
                     if (this.minutes == 0) {
@@ -152,7 +182,7 @@ export default {
     data() {
         return {
             splitedText: null,
-            minutes: 5,
+            minutes: 1,
             spaces: 0,
             seconds: 0,
             secondsPassed: 0,
@@ -161,7 +191,8 @@ export default {
             errors: 0,
             characters: 0,
             accuracy: 0,
-            type: null
+            type: null,
+            accuracyRequired: null
         }
     },
     mounted () {
@@ -191,7 +222,8 @@ export default {
             else
                 timer = this.minutes + ":" + this.seconds
             return timer
-        }
+        },
+        ...mapState(['typingResult', 'typingPage', 'typingCurrent'])
     }
 }
 </script>

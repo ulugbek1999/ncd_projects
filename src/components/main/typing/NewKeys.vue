@@ -5,7 +5,9 @@
             <p><strong>Press Space to continue</strong></p>
             <img :src="require('@/assets/main/Typing/keyboard-big.png')" class="keyboard" alt="">
         </div>
+        
         <div v-if="stage == 'exercise'">
+            <typing-starter v-if="!started" v-bind="tsData" @start="start"></typing-starter>
             <h5 class="exercise-header">Type the key sentences, follow the highlighted key</h5>
             <div class="keys" v-if="this.interval == 2">
                 <div class="row">
@@ -137,6 +139,8 @@
 
 <script>
 import { eventBus } from '@/main'
+import TypingStarter from "./Starter"
+import {mapState} from 'vuex'
 export default {
     data () {
         return {
@@ -170,6 +174,12 @@ export default {
             break: false,
             spaceIndex: 0,
             counter: 0,
+            started: false,
+            tsData: {
+                accuracyGoal: "intermediate",
+                objective: "Learn and memorize the new key positions and develop correct finger-key reaches.",
+                duration: "5 minutes"
+            },
             api: [
                 {
                     content: "aassddffjjkkll;;asdfasdfjkl;jkl;",
@@ -241,7 +251,8 @@ export default {
                 }
             ],
             currentAPI: 0,
-            interval: 2
+            interval: 2,
+            currentPage: 1
         }
     },
     methods: {
@@ -251,11 +262,33 @@ export default {
                     this.contentIndex++
                 else  {
                     this.stage = "exercise"
+                    this.$store.commit('typingCurrentPageSetter')
                 }
+            }
+            else if (this.stage == "exercise") {
+                eventBus.$emit('disactivate')
+                this.$store.commit('typingResultsSetter', {
+                    accuracy: '-',
+                    goal: '-',
+                    errors: '-',
+                    speed: '-'
+                })
+                this.$store.commit('typingCurrentPageSetter')
+                this.$router.push({name: 'typing-result'})
             }
         },
         back () {
             location.reload()
+        },
+        start () {
+            this.exIndex = 0
+            this.metaIndex = 0
+            this.spaceIndex = 0
+            this.currentAPI = 0
+            this.contentIndex = 0
+            this.break = false
+            this.started = true
+            eventBus.$emit('activate', 'charType')
         },
         currentExDataSetter (array) {
             for (let index = 0; index < this.interval; index++) {
@@ -270,7 +303,10 @@ export default {
                 if (data == ' ')
                     this.next()  
             }
-            else {
+            else if (this.started) {
+                if (data === "Backspace") {
+                    this.back()
+                }
                 if (this.api[this.currentAPI].content.length == this.metaIndex) {
                     if (this.currentAPI < this.api.length - 1)
                         this.currentAPI++
@@ -409,19 +445,16 @@ export default {
     watch: { 
         stage () {
             if (this.stage === 'exercise') {
-                this.exIndex = 0
-                this.metaIndex = 0
-                this.spaceIndex = 0
-                this.currentAPI = 0
-                this.contentIndex = 0
-                this.break = false
-                eventBus.$emit('activate', 'charType')
+                
             }
         }
     },
+    components: {
+        TypingStarter
+    },
     mounted() {
         this.$nextTick(() => {
-            
+            this.$store.commit('typingPageSetter', 3)
         })
     }
 }

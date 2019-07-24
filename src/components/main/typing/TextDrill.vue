@@ -1,18 +1,20 @@
 <template>
     <div id="main-content">
+        <typing-starter v-bind="tsData" v-if="!started" @start="start"></typing-starter>
         <div class="text">
             <span v-for="(word, index) in text" :key="'word-' + index">
                 <span class="word" :class="'word-' + index" v-html="$options.filters.checkNewLine(word)" :data-value="word"></span> <span></span>
             </span>
         </div>
         <div class="input-container">
-            <textarea id="input-model" v-model="userInput"  @mousedown="preventClick" @keydown="keyListener" @click="focusOnInput" placeholder="Click here to start!" spellcheck="false"></textarea>
+            <textarea id="input-model" v-model="userInput"  @mousedown="preventClick" @keydown="keyListener" @click="focusOnInput" spellcheck="false"></textarea>
         </div>
     </div>
 </template>
 
 <script>
-import {  eventBus } from "@/main"
+import { eventBus } from "@/main"
+import TypingStarter from './Starter'
 export default {
     data () {
         return {
@@ -25,12 +27,19 @@ export default {
             lineBreak: false,
             userInput: "",
             scroll: false,
-            page: 1
+            page: 1,
+            tsData: {
+                accuracyGoal: "intermediate",
+                objective: "Reinforcement practise to develop smooth and accurate keystrokes and even rythm.",
+                duration: "5 minutes"
+            },
+            started: false
         }
     },
     mounted() {
         this.$nextTick(() => {
             $('.text')[0].scrollTop = 0
+            this.$store.commit('typingPageSetter', 2)
         })
     },
     computed: {
@@ -43,7 +52,7 @@ On the third day after the old woman's departure a young prince, hunting in the 
             return this.exData.text.split(' ')
         },
         userInputReturner () {
-            if (this.metaIndex == 0) return this.userInput.replace(/\n/g, '')
+            if (this.metaIndex == 0) return this.userInput.replace(/\s/g, '')
             else return this.userInput.replace(/\n/g, " ").split(' ')[this.userInput.replace(/\n/g, " ").split(' ').length - 1]
         }
     },
@@ -64,7 +73,6 @@ On the third day after the old woman's departure a young prince, hunting in the 
         },
         focusOnInput (event) {
             event.target.focus()
-            $(event.target).removeAttr('placeholder')
         },
         keyListener (event) {
             if (this.userInput.split('')[this.userInput.length - 1] === " " && event.keyCode === 8) { 
@@ -118,8 +126,40 @@ On the third day after the old woman's departure a young prince, hunting in the 
                         return
                     }
                 }
+                if (this.metaIndex === $('.word').length - 1){
+                    document.querySelectorAll('.word').forEach(element => {
+                        $(element).css('color', 'unset')
+                    })
+                    document.querySelectorAll('.enter-break').forEach(element => {
+                        $(element).css('color', 'unset')
+                    })
+                    document.querySelector('.text').scrollTop = 0
+                    this.metaIndex = 0
+                    this.userInput = ""
+                }
             }
+        },
+        start () {
+            eventBus.$emit('activate', 'wordType')
+            this.started = true
+            document.querySelector('#input-model').focus()
         }
+    },
+    components: {
+        TypingStarter
+    },
+    created () {
+        eventBus.$on('next', () => {
+            eventBus.$emit('disactivate')
+            this.$store.commit('typingResultsSetter', {
+                accuracy: '-',
+                goal: '-',
+                errors: '-',
+                speed: '-'
+            })
+            this.$store.commit('typingCurrentPageSetter')
+            this.$router.push({name: 'typing-result'})
+        })
     }
 }
 </script>
@@ -161,4 +201,5 @@ On the third day after the old woman's departure a young prince, hunting in the 
         overflow-y: scroll;
         padding: 0px 10px;
     }
+
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="listen-and-read">
+    <div class="restore-text">
         <div v-if="stage == 'listening'">
             <div class="wrapper">
                 <div style="width: 80%; margin: 0 auto;">
@@ -118,12 +118,12 @@ export default {
     },
     methods: {
         next () {
-            $('.listen-and-read').addClass('fadeOut')
-            $('.listen-and-read').removeClass('fadeIn')
+            $('.restore-text').addClass('fadeOut')
+            $('.restore-text').removeClass('fadeIn')
             setTimeout(() => {
                 this.stage = "exercise"
-                $('.listen-and-read').removeClass('fadeOut')
-                $('.listen-and-read').addClass('fadeIn')
+                $('.restore-text').removeClass('fadeOut')
+                $('.restore-text').addClass('fadeIn')
             }, 1000)
             setTimeout(() => {
                 this.dragger()
@@ -214,15 +214,15 @@ export default {
                     this.completed = true
                     setTimeout(() => {
                         $('.hearts').css('display', 'none')
-                        $('.listen-and-read').removeClass('fadeIn')
-                        $('.listen-and-read').removeClass('fadeInRight')
-                        $('.listen-and-read').addClass('fadeOutLeft')
+                        $('.restore-text').removeClass('fadeIn')
+                        $('.restore-text').removeClass('fadeInRight')
+                        $('.restore-text').addClass('fadeOutLeft')
                     }, 2000)
                     setTimeout(() => {
                         
                         this.stage = "completed"
-                        $('.listen-and-read').removeClass('fadeOutLeft')
-                        $('.listen-and-read').addClass('fadeInRight')
+                        $('.restore-text').removeClass('fadeOutLeft')
+                        $('.restore-text').addClass('fadeInRight')
                     }, 3000)
                 }
                 else {
@@ -247,11 +247,11 @@ export default {
             return this.shuffle(this.exData)
         },
         retry () {
-            $('.listen-and-read').removeClass('fadeIn')
-            $('.listen-and-read').addClass('fadeOut')
+            $('.restore-text').removeClass('fadeIn')
+            $('.restore-text').addClass('fadeOut')
             setTimeout(() => {
-                $('.listen-and-read').removeClass('fadeOut')
-                $('.listen-and-read').addClass('fadeIn')
+                $('.restore-text').removeClass('fadeOut')
+                $('.restore-text').addClass('fadeIn')
                 this.stage = "listening",
                 this.lifes = [1, 2, 3]
             }, 1000)
@@ -412,14 +412,14 @@ export default {
         margin-bottom: 40px;
     }
 
-    .listen-and-read {
+    .restore-text {
         padding-top: 90px;
         margin: 0 auto;
         max-width: 960px;
         text-align: center;
     }
 
-    .listen-and-read h1 {
+    .restore-text h1 {
         color: #fff;
         font-family: 'Patua One', sans-serif;
     }
@@ -450,12 +450,12 @@ export default {
         outline: none;
     }
 
-    .listen-and-read h2 {
+    .restore-text h2 {
         color: #fff;
         font-size: 'Arial', sans-serif;
     }
 
-    .listen-and-read h4 {
+    .restore-text h4 {
         color: rgb(204, 195, 195)
     }
 

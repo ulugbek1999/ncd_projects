@@ -199,6 +199,13 @@ const ListenAndRepeatModel = resolve => {
   })
 }
 
+const PutSpaces = resolve => {
+  require.ensure(['@/components/main/models/PutSpaces'], () => {
+    resolve(require('@/components/main/models/PutSpaces'))
+  })
+}
+
+
 const Model = resolve => {
   require.ensure(['@/components/main/models/Model'], () => {
     resolve(require('@/components/main/models/Model'))
@@ -228,9 +235,9 @@ const DragAndDrop = resolve => {
   })
 }
 
-const ListenAndRead = resolve => {
-  require.ensure(['@/components/main/models/ListenAndRead'], () => {
-    resolve(require('@/components/main/models/ListenAndRead'))
+const RestoreText = resolve => {
+  require.ensure(['@/components/main/models/RestoreText'], () => {
+    resolve(require('@/components/main/models/RestoreText'))
   })
 }
 
@@ -495,12 +502,17 @@ export default new Router({
           component: DragAndDrop,
           children: [
             {
-              path: '/model/listen-and-read/:id',
-              name: 'listen-and-read',
-              component: ListenAndRead
+              path: '/model/restore-text/:id',
+              name: 'restore-text',
+              component: RestoreText
             }
           ]
         },
+        {
+          path: '/put-spaces',
+          name: 'put-spaces',
+          component: PutSpaces
+        }
       ]
     },
     {

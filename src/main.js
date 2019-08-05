@@ -33,6 +33,11 @@ Vue.config.productionTip = false
 require('vue2-animate/dist/vue2-animate.min.css')
 require('vue2-animate/src/sass/vue2-animate.scss')
 
+import noUiSlider from 'materialize-css/extras/noUiSlider/nouislider.js'
+require('materialize-css/extras/noUiSlider/nouislider.css')
+
+global.noUiSlider = noUiSlider
+
 export const eventBus = new Vue()
 
 /* eslint-disable no-new */

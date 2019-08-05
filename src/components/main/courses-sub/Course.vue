@@ -1,5 +1,6 @@
 <template>
     <div>
+        <ncd-video v-if="videoOpened" @close="openVideo"></ncd-video>
         <ncd-header></ncd-header>
         <div class="course-container">
             <div class="row">
@@ -10,6 +11,10 @@
                     <section class="theory">
                         <h3 class="main-heading" :style="'color: rgb(64, 36, 224)'">Theoretical part</h3>
                         <div class="theory-elements">
+                            <div class="each-part-element video" @click="openVideo">
+                                <img src="@/assets/main/course-video.jpg" alt="" class="course-parts-icon">
+                                <h4 class="course-parts-header">Video Lessons</h4>
+                            </div>
                             <div class="each-part-element theory">
                                 <div class="center-aligner"> 
                                     <img src="@/assets/main/course-theory.jpg" alt="" class="course-parts-icon">
@@ -23,10 +28,6 @@
                             <div class="each-part-element topic">
                                 <img src="@/assets/main/course-topic.jpg" alt="" class="course-parts-icon">
                                 <h4 class="course-parts-header">Topic</h4>
-                            </div>
-                            <div class="each-part-element video">
-                                <img src="@/assets/main/course-video.jpg" alt="" class="course-parts-icon">
-                                <h4 class="course-parts-header">Video Lessons</h4>
                             </div>
                         </div>
                     </section>
@@ -43,7 +44,7 @@
                                 <img src="@/assets/main/course-tale.png" alt="" class="course-parts-icon">
                                 <h4 class="course-parts-header">Story</h4>
                             </div>
-                            <router-link tag="div" :to="{name: 'listen-and-read'}" class="each-part-element exercise">
+                            <router-link tag="div" :to="{name: 'restore-text'}" class="each-part-element exercise">
                                 <img src="@/assets/main/course-exercise.jpg" alt="" class="course-parts-icon">
                                 <h4 class="course-parts-header">Listen and read</h4>
                             </router-link>
@@ -58,9 +59,9 @@
                                     <h4 class="course-parts-header">Read texts</h4>
                                 </div>
                             </div>
-                            <div class="each-part-element story">
-                                <img src="@/assets/main/course-tale.png" alt="" class="course-parts-icon">
-                                <h4 class="course-parts-header">Story</h4>
+                            <div class="each-part-element story" @click="$router.push({name: 'put-spaces'})">
+                                <img src="@/assets/main/put-spaces.png" alt="" class="course-parts-icon">
+                                <h4 class="course-parts-header">Put spaces</h4>
                             </div>
                             <div class="each-part-element topic">
                                 <img src="@/assets/main/course-exercise.jpg" alt="" class="course-parts-icon">
@@ -77,30 +78,16 @@
 <script>
 import Header from '../Header'
 import Sidebar from '../Sidebar'
+import Video from '../lightbox/Video'
 export default {
     components: {
         'ncd-header': Header,
-        'ncd-sidebar': Sidebar
+        'ncd-sidebar': Sidebar,
+        'ncd-video': Video
     },
     data() {
         return {
-            // sideLinks: [
-            //     {
-            //         name: 'Learning route',
-            //         toNavigate: {name: 'learning-route'},
-            //         mainImage: require('../../../assets/main/route.png')
-            //     },
-            //     {
-            //         name: 'My progress',
-            //         toNavigate: {name: 'dashboard', params: {userId: this.getUserId()}},
-            //         mainImage: require('../../../assets/main/progress-report.png'),
-            //     },
-            //     {
-            //         name: "Notifications",
-            //         toNavigate: {name: 'notifications', params: {userId: this.getUserId()}},
-            //         mainImage: require('../../../assets/main/notification.png')
-            //     }
-            // ]
+            videoOpened: false
         }
     },
     computed: {
@@ -133,7 +120,10 @@ export default {
     methods: {
         navigator() {
             this.$router.push({name: 'listen-and-repeat-model', params: {id: this.$store.state.englishFile[1-1].unit}})
-        }
+        },
+        openVideo () {
+            this.videoOpened = !this.videoOpened
+        },
     }
 }
 </script>

@@ -10,7 +10,7 @@
                 <div class="white-pseudo" style="width: 30px; height: 30px; background-color: #fff; top: 17px; position: relative;left: 20px;"></div>
             </div>
             
-            <video @timeupdate="timeUpdater" preload="auto" poster="https://prod-images.edx-video.net/video-images/14b9c14738be494c9934927b4e346bf1.png" id="lesson-video" :src="require('@/assets/videos/lecture_0.mp4')"></video>
+            <video @timeupdate="timeUpdater" preload="meta" poster="https://prod-images.edx-video.net/video-images/14b9c14738be494c9934927b4e346bf1.png" id="lesson-video" :src="require('@/assets/videos/lecture_0.mp4')"></video>
             <div style="display: flex">
                 <div class="progress__player">
                     <div class="progress_filled">
@@ -77,7 +77,6 @@ export default {
             }
             if (this.played === false) {
                 $('#lesson-video')[0].play()
-                this.duration = $('#lesson-video')[0].duration
                 this.played = true
             }
             else {
@@ -137,36 +136,32 @@ export default {
         },
         videoHandler () {
             var video = $('#lesson-video')[0]
-            if (this.duration == 0)
-                return "0:00 / 0:00"
+            var hours = Math.floor(video.duration / 3600)
+            var minutes = Math.round((video.duration % 3600) / 60)
+            var seconds = Math.round((video.duration % 3600) % 60)
+            var currentHours = Math.floor(video.currentTime / 3600)
+            var currentMinutes = Math.floor((video.currentTime % 3600) / 60)
+            var currentSeconds = Math.floor((video.currentTime % 3600) % 60)
+            if (minutes < 10) {
+                minutes = "0" + minutes
+            }
+            if (seconds < 10) {
+                seconds = "0" + seconds
+            }
+            if (currentMinutes < 10) {
+                currentMinutes = "0" + currentMinutes
+            }
+            if (currentSeconds < 10) {
+                currentSeconds = "0" + currentSeconds
+            }
+            if (video.duration >= 3600) {
+                this.timer = currentHours + ":" + currentMinutes + ":" + currentSeconds + " / " + hours + ":" + minutes + ":" + seconds 
+            }
+            else if (video.duration < 3600 && this.duration >= 60) {
+                this.timer = currentMinutes + ":" + currentSeconds + " / " + minutes + ":" + seconds
+            }
             else {
-                var hours = Math.floor(this.duration / 3600)
-                var minutes = Math.round((this.duration % 3600) / 60)
-                var seconds = Math.round((this.duration % 3600) % 60)
-                var currentHours = Math.floor(video.currentTime / 3600)
-                var currentMinutes = Math.floor((video.currentTime % 3600) / 60)
-                var currentSeconds = Math.floor((video.currentTime % 3600) % 60)
-                if (minutes < 10) {
-                    minutes = "0" + minutes
-                }
-                if (seconds < 10) {
-                    seconds = "0" + seconds
-                }
-                if (currentMinutes < 10) {
-                    currentMinutes = "0" + currentMinutes
-                }
-                if (currentSeconds < 10) {
-                    currentSeconds = "0" + currentSeconds
-                }
-                if (this.duration >= 3600) {
-                    this.timer = currentHours + ":" + currentMinutes + ":" + currentSeconds + " / " + hours + ":" + minutes + ":" + seconds 
-                }
-                else if (this.duration < 3600 && this.duration >= 60) {
-                    this.timer = currentMinutes + ":" + currentSeconds + " / " + minutes + ":" + seconds
-                }
-                else {
-                    this.timer = "0:" + currentSeconds + " / " + "0" + ":" + seconds
-                }
+                this.timer = "0:" + currentSeconds + " / " + "0" + ":" + seconds
             }
         },
         openFullScreen () {
@@ -360,10 +355,9 @@ export default {
         position: absolute;
         right: 0;
         left: 0;
-        z-index: 100000000000000000000000;
+        z-index: 10000000;
         background-color: rgba(8, 8, 8, 0.562);
         height: 100%;
-        position: fixed;
         overflow-y: scroll;
     }
 

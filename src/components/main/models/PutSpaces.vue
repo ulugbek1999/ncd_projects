@@ -69,7 +69,7 @@ export default {
             demoText: 'Divide words starting from the first word.',
             results: [],
             stage : "beginning",
-            exercise: `Once upon a time in the middle of winter, when the flakes of snow were falling like feathers from the clouds, a Queen sat at her palace window, which had an ebony black frame, stitching her husband's shirts. While she was thus engaged and looking out at the snow she pricked her finger, and three drops of blood fell upon the snow. Now the red looked so well upon the white that she thought to herself, "Oh, that I had a child as white as this snow, as red as this blood, and as black as the wood of this frame!" Soon afterwards a little daughter came to her, who was as white as snow, and with cheeks as red as blood, and with hair as black as ebony, and from this she was named “Snow-White.” And at the same time her mother died.`,
+            exercise: `Once upon a time in the middle of winter, when the flakes of snow were falling like feathers from the clouds, a Queen sat at her palace window, which had an ebony black frame, stitching her husband's shirts. While she was thus engaged and looking out at the snow she pricked her finger, and three drops of blood fell upon the snow. Now the red looked so well upon the white that she thought to herself, "Oh, that I had a child as white as this snow, as red as this blood, and as black as the wood of this frame!" Soon afterwards a little daughter came to her, who was as white as snow, and with cheeks as red as blood, and with hair as black as ebony, and from this she was named "Snow-White." And at the same time her mother died.`,
             exCharIndex: 0,
             exerciseResults: [],
             preventEvent: false,

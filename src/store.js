@@ -116,6 +116,12 @@ export default new Vuex.Store({
             if (state.typingCurrent < state.typingPage) {
                 state.typingCurrent++
             }
+        },
+        clearAllTimeouts () {
+            var id = window.setTimeout(function() {}, 0);
+            while (id--) {
+                window.clearTimeout(id); // will do nothing if no timeout with id is present
+            }
         }
     },
     actions: {

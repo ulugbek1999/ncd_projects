@@ -46,7 +46,7 @@
                             </div>
                             <router-link tag="div" :to="{name: 'restore-text'}" class="each-part-element exercise">
                                 <img src="@/assets/main/course-exercise.jpg" alt="" class="course-parts-icon">
-                                <h4 class="course-parts-header">Listen and read</h4>
+                                <h4 class="course-parts-header">Restore text</h4>
                             </router-link>
                         </div>
                     </section>
@@ -189,7 +189,6 @@ export default {
         margin-right: 10px;
         float: left;
         background: {
-            image: url('../../../assets/main/course-theory.jpg');
             size: cover;
             position: center;
         }

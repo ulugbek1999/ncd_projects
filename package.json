@@ -14,7 +14,7 @@
     "@shopify/draggable": "^1.0.0-beta.8",
     "ajv": "^6.10.0",
     "animate.css": "^3.7.2",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
     "dragula": "^3.7.2",
     "emitter-js": "^2.0.1",
